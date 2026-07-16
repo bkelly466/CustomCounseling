@@ -1,11 +1,45 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import { getCollection, getEntry, render } from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// This page pulls every bit of copy from src/content/, which is exactly
+// what Eric will edit through the CMS at /admin. Nothing here is hardcoded
+// text — it's a wiring proof, not final design.
+const home = await getEntry('pages', 'home');
+const { Content: HomeBody } = await render(home);
+
+const services = (await getCollection('services')).sort(
+	(a, b) => a.data.order - b.data.order,
+);
+
+const settings = await getEntry('settings', 'site');
 ---
 
 <Layout>
-	<Welcome />
+	<main>
+		<h1>{home.data.heroHeading}</h1>
+		<p>{home.data.heroSubheading}</p>
+		<HomeBody />
+
+		<h2>Services</h2>
+		<ul>
+			{
+				services.map((service) => (
+					<li>
+						<h3>{service.data.title}</h3>
+						<p>{service.data.summary}</p>
+					</li>
+				))
+			}
+		</ul>
+
+		<h2>Get in touch</h2>
+		<p>{settings.data.serviceArea}</p>
+		<p>
+			Call <a href={`tel:${settings.data.phone}`}>{settings.data.phone}</a> or
+			email <a href={`mailto:${settings.data.email}`}>{settings.data.email}</a>.
+		</p>
+		<p><a href={settings.data.bookingUrl}>Book a session</a></p>
+		<p><small>{settings.data.telehealthDisclaimer}</small></p>
+	</main>
 </Layout>

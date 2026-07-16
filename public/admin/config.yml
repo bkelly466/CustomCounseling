@@ -1,0 +1,128 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+#
+# Sveltia CMS config. See CMS-SETUP.md at the repo root for the one-time
+# setup steps (GitHub OAuth app + auth worker) that make the two TODOs
+# below work.
+
+backend:
+  name: github
+  repo: YOUR_GITHUB_USERNAME/YOUR_REPO_NAME # TODO: update once the repo is on GitHub
+  branch: main
+  base_url: https://sveltia-cms-auth.YOUR_SUBDOMAIN.workers.dev # TODO: set after deploying the auth worker (CMS-SETUP.md, step 3)
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+# Home, About, and Site Settings are one-off files, not repeatable lists,
+# so they're modeled as singletons — they show up directly in the sidebar
+# and Eric can't accidentally create duplicates or delete them.
+singletons:
+  - name: home
+    label: Home Page
+    icon: home
+    file: src/content/pages/home.md
+    fields:
+      - {
+          name: title,
+          label: "Internal Title (not shown on the page)",
+          widget: string,
+        }
+      - { name: heroHeading, label: "Hero Heading", widget: string }
+      - { name: heroSubheading, label: "Hero Subheading", widget: string }
+      - {
+          name: seoDescription,
+          label: "SEO Description",
+          widget: text,
+          required: false,
+          hint: "Shown in Google search results. Keep it under 160 characters.",
+        }
+      - { name: body, label: "Intro Text", widget: richtext }
+
+  - name: about
+    label: About Page
+    icon: person
+    file: src/content/pages/about.md
+    fields:
+      - {
+          name: title,
+          label: "Internal Title (not shown on the page)",
+          widget: string,
+        }
+      - {
+          name: seoDescription,
+          label: "SEO Description",
+          widget: text,
+          required: false,
+        }
+      - { name: body, label: "Bio", widget: richtext }
+
+  - name: settings
+    label: Site Settings
+    icon: settings
+    file: src/content/settings/site.yml
+    fields:
+      - name: site
+        label: Contact & Booking Info
+        widget: object
+        fields:
+          - { name: phone, label: "Phone Number", widget: string }
+          - { name: email, label: "Email Address", widget: string }
+          - { name: bookingUrl, label: "Booking Link URL", widget: string }
+          - {
+              name: serviceArea,
+              label: "Service Area Blurb",
+              widget: text,
+            }
+          - {
+              name: telehealthDisclaimer,
+              label: "Telehealth / Crisis Disclaimer",
+              widget: text,
+              hint: "Keep the 988 crisis line mentioned here — do not remove.",
+            }
+
+# Services and FAQ entries are repeatable — Eric can add, reorder, or
+# remove individual items through these collections.
+collections:
+  - name: services
+    label: Services
+    label_singular: Service
+    icon: medical_services
+    folder: src/content/services
+    create: true
+    slug: "{{fields.title}}"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - {
+          name: summary,
+          label: "Summary (shown in the services list)",
+          widget: text,
+        }
+      - {
+          name: order,
+          label: "Display Order (lower numbers show first)",
+          widget: number,
+          default: 1,
+        }
+      - {
+          name: body,
+          label: "Full Description (optional)",
+          widget: richtext,
+          required: false,
+        }
+
+  - name: faq
+    label: FAQ
+    label_singular: Question
+    icon: help
+    folder: src/content/faq
+    create: true
+    slug: "{{fields.question}}"
+    fields:
+      - { name: question, label: Question, widget: string }
+      - {
+          name: order,
+          label: "Display Order (lower numbers show first)",
+          widget: number,
+          default: 1,
+        }
+      - { name: body, label: Answer, widget: richtext }
