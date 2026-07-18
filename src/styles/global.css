@@ -1,0 +1,96 @@
+/*
+ * Design system for the Custom Counseling rebuild.
+ *
+ * Palette extracted from the live Squarespace site (D10: keep current colors),
+ * with two additions for WCAG 2.1 AA contrast:
+ *   - clay-700 (#9A5334): link/accent text on light backgrounds (5.7:1 on white;
+ *     the brand clay-400 #D4967D only reaches 2.5:1 and is decorative-only)
+ *   - ink-950 (#232B2A): text on clay-400 buttons (5.8:1)
+ * White on slate-800 is 7.3:1. Body text slate-900 on cream is 9.5:1.
+ */
+@import 'tailwindcss';
+@import '@fontsource-variable/lora';
+@import '@fontsource-variable/inter';
+
+@theme {
+	--color-cream-50: #faf9f6;
+	--color-stone-100: #efede6;
+	--color-stone-200: #dcd9d0;
+	--color-clay-400: #d4967d;
+	--color-clay-500: #c07f63;
+	--color-clay-700: #9a5334;
+	--color-slate-500: #566866;
+	--color-slate-800: #495a58;
+	--color-slate-900: #3f4a49;
+	--color-ink-950: #232b2a;
+
+	--font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+	--font-display: 'Lora Variable', Georgia, 'Times New Roman', serif;
+}
+
+@layer base {
+	html {
+		scroll-behavior: smooth;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+	}
+
+	body {
+		@apply bg-cream-50 font-sans text-slate-900 antialiased;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4 {
+		@apply font-display font-medium text-balance;
+	}
+
+	:focus-visible {
+		@apply outline-2 outline-offset-2 outline-clay-700;
+	}
+
+	::selection {
+		@apply bg-clay-400 text-ink-950;
+	}
+}
+
+@layer components {
+	/* Skip link: visually hidden until focused (accessibility, roadmap Phase 6) */
+	.skip-link {
+		@apply sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-slate-900 focus:px-4 focus:py-2 focus:text-white;
+	}
+
+	.btn-primary {
+		@apply inline-block rounded-full bg-clay-400 px-7 py-3 font-sans text-sm font-semibold tracking-wide text-ink-950 uppercase transition-colors hover:bg-clay-500;
+	}
+
+	.btn-secondary {
+		@apply inline-block rounded-full border-2 border-slate-800 px-7 py-3 font-sans text-sm font-semibold tracking-wide text-slate-900 uppercase transition-colors hover:bg-slate-800 hover:text-white;
+	}
+
+	/* Variant for use on dark slate sections */
+	.btn-outline-light {
+		@apply inline-block rounded-full border-2 border-white px-7 py-3 font-sans text-sm font-semibold tracking-wide text-white uppercase transition-colors hover:bg-white hover:text-slate-900;
+	}
+
+	.prose-site {
+		@apply space-y-4 leading-relaxed;
+	}
+
+	.prose-site a {
+		@apply font-medium text-clay-700 underline underline-offset-2 hover:text-slate-900;
+	}
+
+	.prose-site ul {
+		@apply list-disc space-y-2 pl-6;
+	}
+
+	.prose-site ol {
+		@apply list-decimal space-y-2 pl-6;
+	}
+}

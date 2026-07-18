@@ -1,0 +1,52 @@
+---
+// Eric's signature "First Steps" 1-2-3 pattern, form-first per D5/D12.
+import { getEntry } from 'astro:content';
+const settings = await getEntry('settings', 'site');
+---
+
+<section class="bg-slate-800 text-stone-100">
+	<div class="mx-auto max-w-4xl px-4 py-14 sm:px-6 md:py-20">
+		<h2 class="text-center text-3xl text-white md:text-4xl">First Steps</h2>
+		<ol class="mt-10 grid gap-8 md:grid-cols-3">
+			<li class="text-center">
+				<span
+					aria-hidden="true"
+					class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-clay-400 font-display text-xl font-semibold text-ink-950"
+					>1</span
+				>
+				<p class="mt-4">
+					<a href="/contact" class="font-semibold text-white underline underline-offset-2"
+						>Fill out the form</a
+					>, or call or text me at{' '}
+					<a href={`tel:${settings.data.phone}`} class="whitespace-nowrap underline underline-offset-2"
+						>{settings.data.phone}</a
+					>.
+				</p>
+			</li>
+			<li class="text-center">
+				<span
+					aria-hidden="true"
+					class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-clay-400 font-display text-xl font-semibold text-ink-950"
+					>2</span
+				>
+				<p class="mt-4">
+					We start with a free 15-minute phone call to see if we're a good fit. Then I email you a
+					couple of forms to sign.
+				</p>
+			</li>
+			<li class="text-center">
+				<span
+					aria-hidden="true"
+					class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-clay-400 font-display text-xl font-semibold text-ink-950"
+					>3</span
+				>
+				<p class="mt-4">
+					We meet online, and together we create a plan for the goals you see fit.
+				</p>
+			</li>
+		</ol>
+		<div class="mt-10 text-center">
+			<a href="/contact" class="btn-primary">Let's start today</a>
+		</div>
+	</div>
+</section>

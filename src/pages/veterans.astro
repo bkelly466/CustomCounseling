@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import FirstSteps from '../components/FirstSteps.astro';
+
+// D4: the $65 rate is gone; the pitch is experience, not price.
+// Page kept pending O2 (Eric's call at copy review).
+const areas = [
+	'PTSD and trauma',
+	'Substance use',
+	'Grief and loss',
+	'Anxiety and depression',
+	'The transition back to civilian life',
+];
+---
+
+<Layout
+	title="Online Counseling for Veterans in Colorado"
+	description="Online therapy for veterans dealing with PTSD, substance use, grief, anxiety, or depression — with a counselor experienced in veterans' care."
+>
+	<PageHero heading="Counseling for Veterans" subhead="You've given everything. Let someone show up for you." />
+
+	<section class="mx-auto max-w-3xl px-4 py-14 sm:px-6 md:py-20">
+		<div class="prose-site text-lg">
+			<p>
+				You have given everything to this country: your body, your mind, your family, and your
+				time. <strong>I'm glad you're here.</strong>
+			</p>
+			<p>
+				I have worked with many veterans, so I understand how hard it is to even consider
+				therapy. I know the loops you go through to find a counselor who fits your coverage, and
+				then to find one you actually trust.
+			</p>
+			<p>
+				Whatever you have going on, I would love to help you during this time.
+			</p>
+		</div>
+
+		<h2 class="mt-12 text-3xl">What we can work on</h2>
+		<ul class="mt-6 space-y-3">
+			{
+				areas.map((item) => (
+					<li class="flex items-start gap-3">
+						<span aria-hidden="true" class="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-clay-400" />
+						<span class="text-lg">{item}</span>
+					</li>
+				))
+			}
+		</ul>
+
+		<div class="prose-site mt-12 text-lg">
+			<p>
+				Sessions are online, so there's no VA waiting room and no drive. Just a private
+				conversation from wherever you are in Colorado.
+			</p>
+		</div>
+	</section>
+
+	<FirstSteps />
+</Layout>

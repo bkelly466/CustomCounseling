@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+---
+
+<Layout
+	title="Privacy & Disclosures | Custom Counseling LLC"
+	description="How this website handles your information, plus the Colorado mandatory disclosure information for counseling clients."
+>
+	<PageHero heading="Privacy & Disclosures" />
+
+	<section class="prose-site mx-auto max-w-3xl px-4 py-14 sm:px-6 md:py-20">
+		<!-- DRAFT: review with Eric before launch (open item O6; analytics choice pending). -->
+		<p class="rounded border border-dashed border-stone-200 bg-stone-100 p-4 text-sm text-slate-500">
+			Draft for review. Final wording depends on the confirmed form provider, analytics choice,
+			and Eric's current mandatory disclosure statement.
+		</p>
+
+		<h2>What this website collects</h2>
+		<p>
+			The contact form asks for your name, email, an optional phone number, and an optional
+			message. That's all. It is delivered to my email by our form provider (Web3Forms), which
+			processes what you type in order to deliver it.
+		</p>
+		<p>
+			Please don't include personal health information in the form. Anything clinical, such as
+			intake paperwork, happens through secure channels after we've talked.
+		</p>
+
+		<h2>Analytics</h2>
+		<p>
+			This site uses either privacy-respecting analytics (no cookies, no personal profiles) or no
+			analytics at all. It never uses advertising trackers or health-data-collecting analytics.
+		</p>
+
+		<h2>Security</h2>
+		<p>The site is served entirely over HTTPS. Counseling sessions happen on a secure Google Meet
+			link, not through this website.</p>
+
+		<h2>Colorado mandatory disclosure</h2>
+		<p>
+			Colorado law (C.R.S. 12-245-216) requires licensed counselors to provide clients with a
+			disclosure statement at the start of counseling. You'll receive mine with your intake
+			paperwork before our first session.
+		</p>
+		<p>
+			The practice of licensed professional counselors in Colorado is regulated by the Colorado
+			Department of Regulatory Agencies (DORA), Division of Professions and Occupations, 1560
+			Broadway, Suite 1350, Denver, CO 80202, (303) 894-7800.
+		</p>
+		<!-- TODO (O1): add Eric's confirmed credential + license number here. -->
+		<p>Eric Tulga, [CRED] · Colorado license #[PENDING]</p>
+
+		<h2>Questions</h2>
+		<p>
+			If you have questions about any of this, <a href="/contact">ask me</a>. I'd rather
+			over-explain than have you wonder.
+		</p>
+	</section>
+</Layout>

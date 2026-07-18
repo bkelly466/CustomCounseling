@@ -1,45 +1,105 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getCollection, getEntry, render } from 'astro:content';
+import ImagePlaceholder from '../components/ImagePlaceholder.astro';
+import ServiceCards from '../components/ServiceCards.astro';
+import FirstSteps from '../components/FirstSteps.astro';
+import { getEntry, render } from 'astro:content';
 
-// This page pulls every bit of copy from src/content/, which is exactly
-// what Eric will edit through the CMS at /admin. Nothing here is hardcoded
-// text — it's a wiring proof, not final design.
+// Hero + intro copy is CMS-editable (pages/home); layout stays code-only.
 const home = await getEntry('pages', 'home');
 const { Content: HomeBody } = await render(home);
-
-const services = (await getCollection('services')).sort(
-	(a, b) => a.data.order - b.data.order,
-);
-
 const settings = await getEntry('settings', 'site');
+
+// JSON-LD per build-reference §6: LocalBusiness, areaServed Colorado, no street address.
+const jsonLd = JSON.stringify({
+	'@context': 'https://schema.org',
+	'@type': 'LocalBusiness',
+	'@id': 'https://denvercustomcounseling.com/#practice',
+	name: 'Custom Counseling LLC',
+	url: 'https://denvercustomcounseling.com/',
+	telephone: '+1-720-235-8357',
+	email: settings.data.email,
+	description:
+		'Online counseling for adults and couples across Colorado: anxiety, depression, addiction, men’s counseling, couples counseling, and counseling for veterans.',
+	founder: { '@type': 'Person', name: 'Eric Tulga' },
+	areaServed: { '@type': 'State', name: 'Colorado' },
+	priceRange: '$140-$175',
+});
 ---
 
-<Layout>
-	<main>
-		<h1>{home.data.heroHeading}</h1>
-		<p>{home.data.heroSubheading}</p>
-		<HomeBody />
+<Layout
+	title="Online Therapy in Colorado | Custom Counseling LLC"
+	description="Online counseling for adults and couples across Colorado. Anxiety, depression, addiction, and men's counseling with Eric Tulga, [CRED]. Free 15-minute consultation."
+>
+	<script slot="head" type="application/ld+json" set:html={jsonLd} />
 
-		<h2>Services</h2>
-		<ul>
-			{
-				services.map((service) => (
-					<li>
-						<h3>{service.data.title}</h3>
-						<p>{service.data.summary}</p>
-					</li>
-				))
-			}
-		</ul>
+	<!-- Hero -->
+	<section class="border-b border-stone-200 bg-stone-100">
+		<div class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 md:py-20">
+			<div>
+				<h1 class="text-4xl md:text-5xl">{home.data.heroHeading}</h1>
+				<p class="mt-4 font-display text-xl text-clay-700 italic md:text-2xl">
+					{home.data.heroSubheading}
+				</p>
+				<p class="mt-5 text-lg">
+					Sessions are online. Join from wherever you are in Colorado, Denver to Durango.
+				</p>
+				<div class="mt-8 flex flex-wrap items-center gap-4">
+					<a href="/contact" class="btn-primary">Free 15-minute consultation</a>
+					<a
+						href={`tel:${settings.data.phone}`}
+						class="text-sm font-medium text-slate-800 underline underline-offset-2 hover:text-clay-700"
+					>
+						or call/text {settings.data.phone}
+					</a>
+				</div>
+			</div>
+			<ImagePlaceholder label="Hero photo — calm Colorado landscape or Eric" ratio="5 / 4" />
+		</div>
+	</section>
 
-		<h2>Get in touch</h2>
-		<p>{settings.data.serviceArea}</p>
-		<p>
-			Call <a href={`tel:${settings.data.phone}`}>{settings.data.phone}</a> or
-			email <a href={`mailto:${settings.data.email}`}>{settings.data.email}</a>.
-		</p>
-		<p><a href={settings.data.bookingUrl}>Book a session</a></p>
-		<p><small>{settings.data.telehealthDisclaimer}</small></p>
-	</main>
+	<!-- Welcome (CMS-editable intro) -->
+	<section class="mx-auto max-w-3xl px-4 py-14 sm:px-6 md:py-20">
+		<h2 class="text-center text-3xl md:text-4xl">Welcome to Custom Counseling</h2>
+		<div class="prose-site mt-8 text-lg">
+			<HomeBody />
+		</div>
+	</section>
+
+	<!-- Services teaser -->
+	<section class="border-y border-stone-200 bg-white">
+		<div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20">
+			<h2 class="text-center text-3xl md:text-4xl">How I can help</h2>
+			<p class="mx-auto mt-4 max-w-2xl text-center text-lg">
+				Every plan is custom. These are the areas I know best.
+			</p>
+			<div class="mt-10">
+				<ServiceCards />
+			</div>
+			<p class="mt-8 text-center">
+				<a href="/services" class="btn-secondary">See all services</a>
+			</p>
+		</div>
+	</section>
+
+	<!-- Online-first reassurance -->
+	<section class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 md:py-20">
+		<ImagePlaceholder label="Photo — online session on a laptop" />
+		<div>
+			<h2 class="text-3xl md:text-4xl">Counseling from wherever you are</h2>
+			<div class="prose-site mt-5">
+				<p>
+					Online counseling can be just as effective as in-person. You can meet me wherever you
+					are: home, your parked car on a lunch break, anywhere you can talk freely.
+				</p>
+				<p>
+					Sessions happen over a secure Google Meet link. All you need is a phone or computer and
+					a private spot.
+				</p>
+				<p><a href="/telehealth">See how online sessions work</a></p>
+			</div>
+		</div>
+	</section>
+
+	<FirstSteps />
 </Layout>

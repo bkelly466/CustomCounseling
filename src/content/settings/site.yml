@@ -1,9 +1,12 @@
 # The file() loader treats each top-level key as one entry id, so everything
 # lives under a single `site:` key. In the CMS this is one "object" field
 # named `site` — keep the two in sync if you rename anything.
+# Fees are editable here (ADR D13 scope: intro text, FAQs, fees).
 site:
-  phone: "303-555-0100"
+  phone: "720-235-8357"
   email: "eric@denvercustomcounseling.com"
-  bookingUrl: "https://example.com/book"
-  serviceArea: "Serving clients throughout the Denver metro area and Colorado, online only"
-  telehealthDisclaimer: "This form is not monitored for emergencies. If you are in crisis, call or text 988 (Suicide & Crisis Lifeline) or 911."
+  serviceArea: "Online counseling for adults and couples across Colorado. Join from wherever you are, Denver to Durango."
+  responsePromise: "I personally read every message and reply within 2–3 business days."
+  feeIndividual: "$140"
+  feeCouples: "$175"
+  telehealthDisclaimer: "This form is for general inquiries only — please don't include personal health information. It isn't monitored for emergencies: if you're in crisis, call or text 988 (Suicide & Crisis Lifeline) or 911."

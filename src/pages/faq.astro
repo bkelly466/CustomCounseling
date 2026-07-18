@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+
+const settings = await getEntry('settings', 'site');
+const faqs = await Promise.all(
+	(await getCollection('faq'))
+		.sort((a, b) => a.data.order - b.data.order)
+		.map(async (entry) => ({ entry, Content: (await render(entry)).Content })),
+);
+---
+
+<Layout
+	title="Fees & FAQs | Custom Counseling LLC"
+	description="Session fees ($140 individual, $175 couples), payment options, cancellation policy, and answers to common questions about starting therapy."
+>
+	<PageHero
+		heading="Fees & Frequently Asked Questions"
+		subhead="Straight answers, so there are no surprises."
+	/>
+
+	<!-- Fees at a glance (values are CMS-editable in Site Settings) -->
+	<section class="mx-auto max-w-4xl px-4 pt-14 sm:px-6">
+		<div class="grid gap-6 sm:grid-cols-2">
+			<div class="rounded-lg border border-stone-200 bg-white p-8 text-center shadow-sm">
+				<p class="text-sm font-semibold tracking-wide text-slate-500 uppercase">Individual session</p>
+				<p class="mt-2 font-display text-5xl font-semibold text-slate-900">
+					{settings.data.feeIndividual}
+				</p>
+				<p class="mt-2 text-sm text-slate-500">50 minutes</p>
+			</div>
+			<div class="rounded-lg border border-stone-200 bg-white p-8 text-center shadow-sm">
+				<p class="text-sm font-semibold tracking-wide text-slate-500 uppercase">Couples session</p>
+				<p class="mt-2 font-display text-5xl font-semibold text-slate-900">
+					{settings.data.feeCouples}
+				</p>
+				<p class="mt-2 text-sm text-slate-500">50 minutes</p>
+			</div>
+		</div>
+		<p class="mt-6 text-center text-slate-800">
+			Payment by card or HSA. A limited sliding scale is available for clients with financial
+			need. If cost is holding you back, ask me.
+		</p>
+	</section>
+
+	<!-- FAQ accordion: semantic details/summary, zero-JS (roadmap Phase 4) -->
+	<section class="mx-auto max-w-3xl px-4 py-14 sm:px-6 md:pb-20">
+		<h2 class="text-3xl">Common questions</h2>
+		<div class="mt-8 divide-y divide-stone-200 rounded-lg border border-stone-200 bg-white shadow-sm">
+			{
+				faqs.map(({ entry, Content }) => (
+					<details class="group px-6 py-4 open:bg-stone-100/50">
+						<summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-1 font-display text-lg font-medium marker:hidden [&::-webkit-details-marker]:hidden">
+							{entry.data.question}
+							<svg
+								aria-hidden="true"
+								class="h-5 w-5 shrink-0 text-clay-700 transition-transform group-open:rotate-180"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								viewBox="0 0 24 24"
+							>
+								<path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+							</svg>
+						</summary>
+						<div class="prose-site pt-2 pb-3 text-slate-800">
+							<Content />
+						</div>
+					</details>
+				))
+			}
+		</div>
+	</section>
+
+	<CtaBand
+		heading="Still have a question?"
+		body="Ask me directly. There are no silly questions about starting therapy."
+	/>
+</Layout>

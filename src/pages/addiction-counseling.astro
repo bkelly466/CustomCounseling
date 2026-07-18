@@ -1,0 +1,77 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import FirstSteps from '../components/FirstSteps.astro';
+
+// D8: no "in Recovery" language anywhere on this page or its metadata.
+const addictions = [
+	'Alcohol',
+	'Drugs',
+	'Pornography',
+	'Gambling and other behavioral addictions',
+];
+
+const gains = [
+	'A space to emotionally stabilize',
+	'A trusting relationship with someone who won’t judge you',
+	'Effective coping strategies for cravings and triggers',
+	'Room to come to terms with the past and mourn what addiction took',
+	'A concrete plan to avoid relapse and move forward',
+];
+---
+
+<Layout
+	title="Online Addiction Counseling in Colorado | Custom Counseling"
+	description="Confidential online counseling for alcohol, drug, and porn addiction. Individual therapy to understand triggers and build a path forward."
+>
+	<PageHero
+		heading="Addiction & Substance Abuse Counseling, Online in Colorado"
+		subhead="Here during the ups and downs of addiction."
+	/>
+
+	<section class="mx-auto max-w-3xl px-4 py-14 sm:px-6 md:py-20">
+		<div class="prose-site text-lg">
+			<p>
+				Addiction is lonely. Whether it's alcohol, drugs, or porn, the cycle of promising
+				yourself "this is the last time" wears you down. You don't have to untangle it alone.
+			</p>
+			<p>
+				Individual therapy is one of the most effective approaches to addiction. It's
+				a <strong>confidential space for you</strong>, with no lectures and no shame.
+			</p>
+		</div>
+
+		<h2 class="mt-12 text-3xl">What I help with</h2>
+		<ul class="mt-6 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+			{
+				addictions.map((item) => (
+					<li class="flex items-center gap-3">
+						<span aria-hidden="true" class="h-2 w-2 shrink-0 rounded-full bg-clay-400" />
+						{item}
+					</li>
+				))
+			}
+		</ul>
+
+		<h2 class="mt-12 text-3xl">What you get out of it</h2>
+		<ul class="mt-6 space-y-3">
+			{
+				gains.map((item) => (
+					<li class="flex items-start gap-3">
+						<span aria-hidden="true" class="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-clay-400" />
+						<span class="text-lg">{item}</span>
+					</li>
+				))
+			}
+		</ul>
+
+		<div class="prose-site mt-12 text-lg">
+			<p>
+				We'll work to understand your triggers, chart a path forward, and build a life you don't
+				need to escape from. <strong>Let's start today.</strong>
+			</p>
+		</div>
+	</section>
+
+	<FirstSteps />
+</Layout>

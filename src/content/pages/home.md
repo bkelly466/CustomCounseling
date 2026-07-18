@@ -1,10 +1,12 @@
 ---
 title: Home
-heroHeading: "Online Counseling for Denver-Area Clients"
-heroSubheading: "Compassionate, confidential telehealth sessions with Eric Tulga, LPC"
-seoDescription: "Denver Custom Counseling offers secure online therapy sessions for individuals and couples across Colorado."
+heroHeading: "Online Therapy for Adults and Couples in Colorado"
+heroSubheading: "Empowering you to make enduring change."
+seoDescription: "Online counseling for adults and couples across Colorado. Anxiety, depression, addiction, and men's counseling with Eric Tulga, [CRED]. Free consultation."
 ---
 
-_Draft placeholder — pending final copy review with Eric._
+Welcome to Custom Counseling. You have made a massive step in your journey just by being here.
 
-I offer individual and couples counseling entirely online, so you can meet from wherever is most comfortable for you. Sessions are secure, confidential, and scheduled around your life.
+My goal is to **empower** you to make the changes you want to see in your life, through open and honest dialogue in a confidential space. Together we will build a custom plan around your goals, your expectations, and your needs.
+
+I believe counseling is for everyone, at any point in life. Through counseling, I believe every person is capable of achieving a fulfilling and meaningful life.

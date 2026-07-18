@@ -1,0 +1,67 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import FirstSteps from '../components/FirstSteps.astro';
+
+const topics = [
+	'Work stress and pressure to provide',
+	'Anxiety and racing thoughts',
+	'Depression and feeling numb',
+	'Loneliness and isolation',
+	'Anger that comes out sideways',
+	'Feeling stuck, in life or in a relationship',
+];
+---
+
+<Layout
+	title="Men's Online Counseling in Colorado | Custom Counseling"
+	description="Online therapy for men dealing with work stress, anxiety, depression, or feeling stuck. A counselor who gets how men talk. Colorado residents."
+>
+	<PageHero
+		heading="Online Counseling for Men in Colorado"
+		subhead="Stop bottling it up and get the help you need."
+	/>
+
+	<section class="mx-auto max-w-3xl px-4 py-14 sm:px-6 md:py-20">
+		<div class="prose-site text-lg">
+			<p>
+				As <strong>men</strong>, we tend to bottle up our emotions. Maybe you were taught young to
+				keep it to yourself. Maybe it feels like nobody really wants to hear it.
+			</p>
+			<p>
+				So it builds. The stress from work comes home. The short fuse gets shorter. And the
+				thoughts you have nowhere to unload keep circling at 2 a.m.
+			</p>
+			<p>
+				Finding a therapist who actually gets how men think, and what we need, is
+				hard. <strong>I get it, and I'm here to help.</strong>
+			</p>
+		</div>
+
+		<h2 class="mt-12 text-3xl">What we can work on</h2>
+		<ul class="mt-6 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+			{
+				topics.map((topic) => (
+					<li class="flex items-center gap-3">
+						<span aria-hidden="true" class="h-2 w-2 shrink-0 rounded-full bg-clay-400" />
+						{topic}
+					</li>
+				))
+			}
+		</ul>
+
+		<div class="prose-site mt-12 text-lg">
+			<h2 class="text-3xl">No couch. No waiting room.</h2>
+			<p>
+				Sessions are online, so you can talk from your truck, your garage, or wherever you get
+				privacy. It's a conversation, and it stays between us.
+			</p>
+			<p>
+				There are no promises in therapy because it is not a miracle drug. However, I will do my
+				best to help you where you are today.
+			</p>
+		</div>
+	</section>
+
+	<FirstSteps />
+</Layout>

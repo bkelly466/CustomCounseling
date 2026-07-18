@@ -1,0 +1,111 @@
+---
+// Site header: logo placeholder, primary nav, form-first CTA (D5).
+// Specialty pages live under the Services hub, so the top nav stays short.
+const navItems = [
+	{ href: '/about', label: 'About' },
+	{ href: '/services', label: 'Services' },
+	{ href: '/telehealth', label: 'Online Sessions' },
+	{ href: '/faq', label: 'FAQs & Fees' },
+	{ href: '/contact', label: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header class="sticky top-0 z-40 border-b border-stone-200 bg-cream-50/95 backdrop-blur">
+	<div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+		<a href="/" class="flex items-center gap-3" aria-label="Custom Counseling home">
+			<!-- Logo placeholder: swap for Eric's real logo file (D10 keeps the current logo). -->
+			<span
+				aria-hidden="true"
+				class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-800 font-display text-lg font-semibold text-clay-400"
+				>CC</span
+			>
+			<span class="leading-tight">
+				<span class="block font-display text-lg font-semibold">Custom Counseling</span>
+				<span class="block text-xs tracking-wide text-slate-500 uppercase"
+					>Online Therapy in Colorado</span
+				>
+			</span>
+		</a>
+
+		<nav aria-label="Main" class="hidden items-center gap-6 lg:flex">
+			{
+				navItems.map((item) => (
+					<a
+						href={item.href}
+						aria-current={currentPath === item.href ? 'page' : undefined}
+						class:list={[
+							'text-sm font-medium transition-colors hover:text-clay-700',
+							currentPath === item.href
+								? 'text-clay-700 underline underline-offset-8'
+								: 'text-slate-900',
+						]}
+					>
+						{item.label}
+					</a>
+				))
+			}
+			<a href="/contact" class="btn-primary !px-5 !py-2.5">Free Consultation</a>
+		</nav>
+
+		<button
+			type="button"
+			id="nav-toggle"
+			class="rounded p-2 text-slate-900 lg:hidden"
+			aria-expanded="false"
+			aria-controls="mobile-nav"
+		>
+			<span class="sr-only">Menu</span>
+			<svg
+				aria-hidden="true"
+				class="h-6 w-6"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				viewBox="0 0 24 24"
+			>
+				<path class="nav-open-icon" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"></path>
+				<path class="nav-close-icon hidden" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"></path>
+			</svg>
+		</button>
+	</div>
+
+	<nav id="mobile-nav" aria-label="Main menu" class="hidden border-t border-stone-200 lg:!hidden">
+		<ul class="space-y-1 px-4 py-4">
+			{
+				navItems.map((item) => (
+					<li>
+						<a
+							href={item.href}
+							aria-current={currentPath === item.href ? 'page' : undefined}
+							class:list={[
+								'block rounded px-3 py-2 font-medium',
+								currentPath === item.href
+									? 'bg-stone-100 text-clay-700'
+									: 'text-slate-900 hover:bg-stone-100',
+							]}
+						>
+							{item.label}
+						</a>
+					</li>
+				))
+			}
+			<li class="pt-2">
+				<a href="/contact" class="btn-primary block text-center">Free Consultation</a>
+			</li>
+		</ul>
+	</nav>
+</header>
+
+<script>
+	const toggle = document.getElementById('nav-toggle');
+	const menu = document.getElementById('mobile-nav');
+	toggle?.addEventListener('click', () => {
+		const open = toggle.getAttribute('aria-expanded') === 'true';
+		toggle.setAttribute('aria-expanded', String(!open));
+		menu?.classList.toggle('hidden', open);
+		toggle.querySelector('.nav-open-icon')?.classList.toggle('hidden', !open);
+		toggle.querySelector('.nav-close-icon')?.classList.toggle('hidden', open);
+	});
+</script>

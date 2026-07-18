@@ -1,0 +1,7 @@
+# 301 redirect map (build reference §5). Slugs that survived keep their URLs.
+/counseling-services-offered  /services  301
+/denver-counselor             /about     301
+/contact-counselor            /contact   301
+/affordable-counseling-faqs   /faq       301
+/just-coffee-counseling       /contact   301
+/cart                         /          301

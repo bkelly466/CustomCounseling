@@ -1,7 +1,6 @@
 ---
-title: Couples Counseling
-summary: "Structured sessions to help partners communicate more effectively and work through recurring conflict."
+title: "Couples Counseling"
+summary: "A structured 8–12 week approach to move you out of reactivity and back toward each other."
+href: /couples-counseling
 order: 2
 ---
-
-_Draft placeholder — pending final copy review with Eric._

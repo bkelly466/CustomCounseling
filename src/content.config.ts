@@ -16,11 +16,13 @@ const pages = defineCollection({
 });
 
 // Repeatable list: one Markdown file per service, body = description.
+// href points at the service's dedicated pillar page (code-owned, not CMS-editable).
 const services = defineCollection({
 	loader: glob({ pattern: '*.md', base: './src/content/services' }),
 	schema: z.object({
 		title: z.string(),
 		summary: z.string(),
+		href: z.string().optional(),
 		order: z.number().default(0),
 	}),
 });
@@ -42,8 +44,10 @@ const settings = defineCollection({
 	schema: z.object({
 		phone: z.string(),
 		email: z.string().email(),
-		bookingUrl: z.string().url(),
 		serviceArea: z.string(),
+		responsePromise: z.string(),
+		feeIndividual: z.string(),
+		feeCouples: z.string(),
 		telehealthDisclaimer: z.string(),
 	}),
 });

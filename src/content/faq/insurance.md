@@ -1,6 +1,6 @@
 ---
-question: "Do you accept insurance?"
-order: 3
+question: "Do you take insurance?"
+order: 2
 ---
 
-_Draft placeholder — confirm current insurance/self-pay policy with Eric before publishing._
+I am not in-network with insurance. Payment is by card or HSA. If you want to use insurance, ask your provider about out-of-network behavioral health coverage.

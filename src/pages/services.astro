@@ -1,0 +1,58 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import ServiceCards from '../components/ServiceCards.astro';
+import FirstSteps from '../components/FirstSteps.astro';
+
+// "Everything else" list per build reference §4. Christian counseling gets a
+// clear mention (open item O3: Red Rocks Church referrals + backlink).
+const alsoWorkWith = [
+	'Grief and loss',
+	'Faith-based and Christian counseling',
+	'Life transitions',
+	'Work stress and burnout',
+	'Loneliness and isolation',
+	'Anger',
+];
+---
+
+<Layout
+	title="Online Counseling Services in Colorado | Custom Counseling"
+	description="Men's counseling, couples therapy, anxiety, depression, and addiction counseling — all online, for adults anywhere in Colorado."
+>
+	<PageHero
+		heading="Counseling Services"
+		subhead="All online, for adults and couples anywhere in Colorado."
+	/>
+
+	<section class="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20">
+		<div class="prose-site mx-auto max-w-3xl text-center text-lg">
+			<p>
+				Every person I work with gets a <strong>custom</strong> plan. That's the whole idea behind
+				the name. These are the areas where I have the most experience.
+			</p>
+		</div>
+		<div class="mt-10">
+			<ServiceCards />
+		</div>
+
+		<div class="mx-auto mt-14 max-w-3xl">
+			<h2 class="text-center text-3xl">I also work with</h2>
+			<ul class="mt-6 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+				{
+					alsoWorkWith.map((item) => (
+						<li class="flex items-center gap-3">
+							<span aria-hidden="true" class="h-2 w-2 shrink-0 rounded-full bg-clay-400" />
+							{item}
+						</li>
+					))
+				}
+			</ul>
+			<p class="prose-site mt-8 text-center text-lg">
+				Not sure where you fit? That's normal. Reach out and we'll figure it out together.
+			</p>
+		</div>
+	</section>
+
+	<FirstSteps />
+</Layout>

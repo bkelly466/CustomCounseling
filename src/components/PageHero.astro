@@ -1,0 +1,16 @@
+---
+// Inner-page hero: plain descriptive H1 + short emotional subhead
+// (Eric's "headline + emotional subhead" pattern).
+interface Props {
+	heading: string;
+	subhead?: string;
+}
+const { heading, subhead } = Astro.props;
+---
+
+<section class="border-b border-stone-200 bg-stone-100">
+	<div class="mx-auto max-w-4xl px-4 py-14 text-center sm:px-6 md:py-20">
+		<h1 class="text-3xl md:text-5xl">{heading}</h1>
+		{subhead && <p class="mt-4 text-lg text-slate-800 md:text-xl">{subhead}</p>}
+	</div>
+</section>

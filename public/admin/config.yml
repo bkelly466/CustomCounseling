@@ -62,20 +62,30 @@ singletons:
     file: src/content/settings/site.yml
     fields:
       - name: site
-        label: Contact & Booking Info
+        label: Contact Info & Fees
         widget: object
         fields:
           - { name: phone, label: "Phone Number", widget: string }
           - { name: email, label: "Email Address", widget: string }
-          - { name: bookingUrl, label: "Booking Link URL", widget: string }
           - {
               name: serviceArea,
               label: "Service Area Blurb",
               widget: text,
             }
           - {
+              name: responsePromise,
+              label: "Response-Time Promise (shown next to the contact form)",
+              widget: string,
+            }
+          - {
+              name: feeIndividual,
+              label: "Individual Session Fee",
+              widget: string,
+            }
+          - { name: feeCouples, label: "Couples Session Fee", widget: string }
+          - {
               name: telehealthDisclaimer,
-              label: "Telehealth / Crisis Disclaimer",
+              label: "Contact Form / Crisis Disclaimer",
               widget: text,
               hint: "Keep the 988 crisis line mentioned here — do not remove.",
             }
@@ -96,6 +106,12 @@ collections:
           name: summary,
           label: "Summary (shown in the services list)",
           widget: text,
+        }
+      - {
+          name: href,
+          label: "Page Link (leave as-is; Brandon manages page URLs)",
+          widget: string,
+          required: false,
         }
       - {
           name: order,
