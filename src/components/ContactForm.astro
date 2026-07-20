@@ -71,6 +71,19 @@ const ACCESS_KEY = 'WEB3FORMS_ACCESS_KEY_PLACEHOLDER';
 			class="w-full rounded border border-stone-200 bg-cream-50 px-3 py-2"></textarea>
 	</div>
 
+	<!--
+		No captcha here, deliberately. See ADR-002: the access key is public in
+		the page source, so a spammer can POST straight to api.web3forms.com and
+		skip the honeypot above. hCaptcha would close that, but we measured it
+		and it sets third-party cookies and pulls in the deprecated Protected
+		Audience ad-targeting API — on the contact page of a mental-health site,
+		which is the worst possible place for it. Not worth it while the risk is
+		still theoretical.
+
+		If spam becomes real, the fix is the self-built Pages Function +
+		Turnstile form (ADR-001 parked it as a post-launch project), not a
+		captcha bolted onto the free tier.
+	-->
 	<button type="submit" class="btn-primary w-full sm:w-auto">Send message</button>
 
 	<p class="text-sm text-slate-800">{settings.data.responsePromise}</p>

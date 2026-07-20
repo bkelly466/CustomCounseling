@@ -11,8 +11,47 @@
  * White on slate-800 is 7.3:1. Body text slate-900 on cream is 9.5:1.
  */
 @import 'tailwindcss';
-@import '@fontsource-variable/lora';
-@import '@fontsource-variable/inter';
+
+/*
+ * Fonts: latin subset only, self-hosted.
+ *
+ * The @fontsource-variable packages ship every language subset (Cyrillic,
+ * Greek, Vietnamese, math, symbols) in one stylesheet with no per-subset
+ * entry point, which put ~377 KB of woff2 in the build when we only ever
+ * serve English. These two files are copied from those packages into
+ * src/assets/fonts/ and declared by hand instead.
+ *
+ * unicode-range is copied verbatim from Fontsource's latin block, so browsers
+ * still skip the download for any page that somehow needs other scripts.
+ * It covers everything this site uses: · U+00B7, – U+2013, — U+2014, ’ U+2019.
+ * (The → in the service cards is not in any Inter subset and already falls
+ * back to a system glyph — no change there.)
+ *
+ * To update: npm i -D @fontsource-variable/{inter,lora}, copy the new
+ * *-latin-wght-normal.woff2 out of node_modules, then uninstall.
+ * Note the differing weight ranges — Inter is 100-900, Lora 400-700.
+ */
+@font-face {
+	font-family: 'Inter Variable';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 100 900;
+	src: url('../assets/fonts/inter-latin-wght-normal.woff2') format('woff2-variations');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+		U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+		U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: 'Lora Variable';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400 700;
+	src: url('../assets/fonts/lora-latin-wght-normal.woff2') format('woff2-variations');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+		U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+		U+FEFF, U+FFFD;
+}
 
 @theme {
 	--color-cream-50: #faf9f6;

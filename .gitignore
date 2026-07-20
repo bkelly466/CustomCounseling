@@ -26,5 +26,6 @@ pnpm-debug.log*
 CLAUDE.md
 CMS-SETUP.md
 HANDOFF.md
+RUNBOOK.md
 AGENTS.md
 .claude/agents
