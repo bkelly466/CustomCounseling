@@ -1,46 +1,96 @@
-# Astro Starter Kit: Basics
+# Custom Counseling LLC — Website
 
-```sh
-npm create astro@latest -- --template basics
-```
+A rebuild of [denvercustomcounseling.com](https://denvercustomcounseling.com),
+migrating a Colorado counseling practice off Squarespace to a static
+[Astro](https://astro.build) site as it transitions to an online-only
+(telehealth) model.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+**Status:** built, pre-launch. The live domain still serves the old
+Squarespace site.
 
-## 🚀 Project Structure
+## Why this rebuild
 
-Inside of your Astro project, you'll see the following folders and files:
+| Goal | Approach |
+|---|---|
+| Cut running costs | ~$200–300/yr on Squarespace → ~$10–15/yr (domain only) |
+| Support the online-only pivot | Copy and SEO reframed from a Denver-office practice to statewide Colorado telehealth |
+| Keep search visibility | Existing URLs preserved where possible; 301 map for the rest; per-page metadata and JSON-LD |
+| Meet WCAG 2.1 AA | Semantic HTML, keyboard-operable nav, AA-verified colour contrast |
+| Let the client edit copy | Git-based CMS at `/admin`, no database and no subscription |
+
+Lighthouse scores **100** for Performance, Accessibility, Best Practices, and
+SEO on the production build.
+
+## Stack
+
+- **[Astro](https://astro.build)** — static output, zero client JS by default
+- **[Tailwind CSS v4](https://tailwindcss.com)** — via `@tailwindcss/vite`
+- **[Sveltia CMS](https://sveltiacms.app/)** — git-based content editing at `/admin`
+- **Cloudflare Pages** — hosting (free tier, unlimited bandwidth)
+- **Web3Forms** — contact form delivery, host-independent
+
+## Commands
+
+Run from the project root:
+
+| Command | Action |
+|---|---|
+| `npm install` | Install dependencies |
+| `npm run dev` | Dev server at `localhost:4321` |
+| `npm run build` | Build the production site to `./dist/` |
+| `npm run preview` | Serve the production build locally |
+
+> Measure Lighthouse against `npm run build && npm run preview`, never the dev
+> server — dev mode is unminified and ships a hot-reload client, which
+> understates Performance by 10–15 points.
+
+## Project structure
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+src/
+├── components/        # Header, Footer, ContactForm, ServiceCards, …
+├── content/           # CMS-editable copy (Markdown + YAML)
+│   ├── pages/         # Home and About intro text
+│   ├── services/      # One file per service (drives cards, nav, footer)
+│   ├── faq/           # One file per question
+│   └── settings/      # Phone, email, fees, disclaimers
+├── content.config.ts  # Content collection schemas
+├── layouts/           # Base layout: meta tags, OG, skip link
+├── pages/             # One .astro file per route
+└── styles/global.css  # Design tokens and component classes
+
+public/
+├── _redirects         # 301 map from the old Squarespace URLs
+├── admin/             # Sveltia CMS config
+└── robots.txt
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Routes mirror the file names in `src/pages/`. Old slugs (`/mens-counseling`,
+`/telehealth`, …) were deliberately preserved to avoid redirect churn.
 
-## 🧞 Commands
+## Content editing
 
-All commands are run from the root of the project, from a terminal:
+Editable copy lives in `src/content/` as Markdown and YAML, and is exposed to
+the client through Sveltia CMS at `/admin`. Schemas in `content.config.ts` and
+field definitions in `public/admin/config.yml` must be kept in sync — if you
+add or rename a field, update both.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Editable scope is deliberately narrow: page intro text, services, FAQ entries,
+fees, and contact details. Layout, metadata, and redirects stay code-only.
 
-## 👀 Want to learn more?
+## Deployment
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Cloudflare Pages, building from `main`:
+
+- Build command: `npm run build`
+- Output directory: `dist`
+
+`public/_redirects` is picked up automatically for the 301 map. A sitemap is
+generated at build time via `@astrojs/sitemap`.
+
+## Notes
+
+- Images, logo, and favicon are **placeholders** pending the client's assets.
+- The contact form is built but not yet connected to a live endpoint.
+- Setup and handoff documentation is maintained locally and intentionally kept
+  out of version control.
