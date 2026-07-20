@@ -2,9 +2,11 @@
  * Design system for the Custom Counseling rebuild.
  *
  * Palette extracted from the live Squarespace site (D10: keep current colors),
- * with two additions for WCAG 2.1 AA contrast:
+ * with three additions for WCAG 2.1 AA contrast:
  *   - clay-700 (#9A5334): link/accent text on light backgrounds (5.7:1 on white;
  *     the brand clay-400 #D4967D only reaches 2.5:1 and is decorative-only)
+ *   - clay-200 (#ECCBB9): warm accent TEXT on the dark slate-800 footer (~4.8:1;
+ *     clay-400 there is only 2.9:1, which fails)
  *   - ink-950 (#232B2A): text on clay-400 buttons (5.8:1)
  * White on slate-800 is 7.3:1. Body text slate-900 on cream is 9.5:1.
  */
@@ -16,6 +18,7 @@
 	--color-cream-50: #faf9f6;
 	--color-stone-100: #efede6;
 	--color-stone-200: #dcd9d0;
+	--color-clay-200: #eccbb9;
 	--color-clay-400: #d4967d;
 	--color-clay-500: #c07f63;
 	--color-clay-700: #9a5334;

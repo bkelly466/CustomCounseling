@@ -12,49 +12,50 @@ const year = new Date().getFullYear();
 			<p class="font-display text-xl font-semibold text-white">Custom Counseling LLC</p>
 			<p class="text-sm italic">Empowering you to make enduring change.</p>
 			<p class="text-sm">{settings.data.serviceArea}</p>
-			<!-- TODO (O1): replace [CRED] + license number once Eric confirms in writing. -->
-			<p class="text-sm">Eric Tulga, [CRED] · Licensed in Colorado · License #[PENDING]</p>
+			<p class="text-sm">
+				Eric Tulga, MA, LPC · Licensed by the State of Colorado · License LPC.0021647
+			</p>
 		</div>
 
 		<nav aria-label="Services" class="space-y-3">
-			<p class="text-sm font-semibold tracking-wide text-clay-400 uppercase">Services</p>
+			<p class="text-sm font-semibold tracking-wide text-clay-200 uppercase">Services</p>
 			<ul class="space-y-2 text-sm">
 				{
 					services.map((service) => (
 						<li>
-							<a href={service.data.href ?? '/services'} class="hover:text-clay-400 hover:underline">
+							<a href={service.data.href ?? '/services'} class="hover:text-clay-200 hover:underline">
 								{service.data.title}
 							</a>
 						</li>
 					))
 				}
 				<li>
-					<a href="/services" class="hover:text-clay-400 hover:underline">All services</a>
+					<a href="/services" class="hover:text-clay-200 hover:underline">All services</a>
 				</li>
 			</ul>
 		</nav>
 
 		<div class="space-y-3">
-			<p class="text-sm font-semibold tracking-wide text-clay-400 uppercase">Get in touch</p>
+			<p class="text-sm font-semibold tracking-wide text-clay-200 uppercase">Get in touch</p>
 			<ul class="space-y-2 text-sm">
 				<li>
-					<a href="/contact" class="font-semibold text-white hover:text-clay-400 hover:underline"
+					<a href="/contact" class="font-semibold text-white hover:text-clay-200 hover:underline"
 						>Send me a message</a
 					>
 				</li>
 				<li>
 					Call or text{' '}
-					<a href={`tel:${settings.data.phone}`} class="hover:text-clay-400 hover:underline"
+					<a href={`tel:${settings.data.phone}`} class="hover:text-clay-200 hover:underline"
 						>{settings.data.phone}</a
 					>
 				</li>
 				<li>
-					<a href={`mailto:${settings.data.email}`} class="hover:text-clay-400 hover:underline"
+					<a href={`mailto:${settings.data.email}`} class="hover:text-clay-200 hover:underline"
 						>{settings.data.email}</a
 					>
 				</li>
-				<li><a href="/telehealth" class="hover:text-clay-400 hover:underline">How online sessions work</a></li>
-				<li><a href="/privacy" class="hover:text-clay-400 hover:underline">Privacy &amp; disclosures</a></li>
+				<li><a href="/telehealth" class="hover:text-clay-200 hover:underline">How online sessions work</a></li>
+				<li><a href="/privacy" class="hover:text-clay-200 hover:underline">Privacy &amp; disclosures</a></li>
 			</ul>
 			<p class="border-t border-slate-500/50 pt-3 text-xs leading-relaxed">
 				If you are in crisis, call or text <a

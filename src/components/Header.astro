@@ -1,24 +1,33 @@
 ---
+import { getCollection } from 'astro:content';
+
 // Site header: logo placeholder, primary nav, form-first CTA (D5).
-// Specialty pages live under the Services hub, so the top nav stays short.
+// The Services item opens a dropdown of the individual specialty pages.
 const navItems = [
 	{ href: '/about', label: 'About' },
-	{ href: '/services', label: 'Services' },
+	{ href: '/services', label: 'Services', hasDropdown: true },
 	{ href: '/telehealth', label: 'Online Sessions' },
 	{ href: '/faq', label: 'FAQs & Fees' },
 	{ href: '/contact', label: 'Contact' },
 ];
 
+// Dropdown links come from the same CMS-editable collection the rest of the
+// site uses, so adding/reordering a service keeps the menu in sync.
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const serviceLinks = services.map((s) => ({ href: s.data.href ?? '/services', label: s.data.title }));
+
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+// Highlight "Services" on the hub page or any specialty page.
+const onServices = currentPath === '/services' || serviceLinks.some((s) => s.href === currentPath);
 ---
 
 <header class="sticky top-0 z-40 border-b border-stone-200 bg-cream-50/95 backdrop-blur">
 	<div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-		<a href="/" class="flex items-center gap-3" aria-label="Custom Counseling home">
+		<a href="/" class="flex items-center gap-3">
 			<!-- Logo placeholder: swap for Eric's real logo file (D10 keeps the current logo). -->
 			<span
 				aria-hidden="true"
-				class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-800 font-display text-lg font-semibold text-clay-400"
+				class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-800 font-display text-lg font-semibold text-clay-200"
 				>CC</span
 			>
 			<span class="leading-tight">
@@ -29,24 +38,101 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 			</span>
 		</a>
 
-		<nav aria-label="Main" class="hidden items-center gap-6 lg:flex">
-			{
-				navItems.map((item) => (
-					<a
-						href={item.href}
-						aria-current={currentPath === item.href ? 'page' : undefined}
-						class:list={[
+		<nav aria-label="Main" class="hidden lg:block">
+			<ul class="flex items-center gap-6">
+				{
+					navItems.map((item) => {
+						const isCurrent = item.hasDropdown ? onServices : currentPath === item.href;
+						const linkClass = [
 							'text-sm font-medium transition-colors hover:text-clay-700',
-							currentPath === item.href
-								? 'text-clay-700 underline underline-offset-8'
-								: 'text-slate-900',
-						]}
-					>
-						{item.label}
-					</a>
-				))
-			}
-			<a href="/contact" class="btn-primary !px-5 !py-2.5">Free Consultation</a>
+							isCurrent ? 'text-clay-700 underline underline-offset-8' : 'text-slate-900',
+						];
+
+						if (!item.hasDropdown) {
+							return (
+								<li>
+									<a
+										href={item.href}
+										aria-current={isCurrent ? 'page' : undefined}
+										class:list={linkClass}
+									>
+										{item.label}
+									</a>
+								</li>
+							);
+						}
+
+						return (
+							<li class="relative" data-dropdown>
+								<div class="flex items-center gap-1">
+									<a
+										href={item.href}
+										aria-current={isCurrent ? 'page' : undefined}
+										class:list={linkClass}
+									>
+										{item.label}
+									</a>
+									<button
+										type="button"
+										class="rounded p-1 text-slate-900 transition-colors hover:text-clay-700"
+										aria-haspopup="true"
+										aria-expanded="false"
+										aria-controls="services-menu"
+										data-dropdown-toggle
+									>
+										<span class="sr-only">Toggle services menu</span>
+										<svg
+											aria-hidden="true"
+											class="h-4 w-4 transition-transform duration-200"
+											data-dropdown-chevron
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+											viewBox="0 0 24 24"
+										>
+											<path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+										</svg>
+									</button>
+								</div>
+
+								<ul
+									id="services-menu"
+									class="invisible absolute left-0 top-full z-50 mt-2 w-64 translate-y-1 rounded-lg border border-stone-200 bg-cream-50 py-2 opacity-0 shadow-lg transition-all duration-150"
+									data-dropdown-menu
+								>
+									{serviceLinks.map((link) => (
+										<li>
+											<a
+												href={link.href}
+												aria-current={currentPath === link.href ? 'page' : undefined}
+												class:list={[
+													'block px-4 py-2 text-sm transition-colors hover:bg-stone-100 hover:text-clay-700',
+													currentPath === link.href
+														? 'font-semibold text-clay-700'
+														: 'text-slate-900',
+												]}
+											>
+												{link.label}
+											</a>
+										</li>
+									))}
+									<li class="mt-1 border-t border-stone-200 pt-1">
+										<a
+											href="/services"
+											class="block px-4 py-2 text-sm font-medium text-slate-900 transition-colors hover:bg-stone-100 hover:text-clay-700"
+										>
+											All services
+										</a>
+									</li>
+								</ul>
+							</li>
+						);
+					})
+				}
+				<li>
+					<a href="/contact" class="btn-primary !px-5 !py-2.5">Free Consultation</a>
+				</li>
+			</ul>
 		</nav>
 
 		<button
@@ -88,6 +174,26 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 						>
 							{item.label}
 						</a>
+						{item.hasDropdown && (
+							<ul class="mt-1 mb-1 space-y-1 border-l border-stone-200 pl-3">
+								{serviceLinks.map((link) => (
+									<li>
+										<a
+											href={link.href}
+											aria-current={currentPath === link.href ? 'page' : undefined}
+											class:list={[
+												'block rounded px-3 py-2 text-sm',
+												currentPath === link.href
+													? 'bg-stone-100 text-clay-700'
+													: 'text-slate-900 hover:bg-stone-100',
+											]}
+										>
+											{link.label}
+										</a>
+									</li>
+								))}
+							</ul>
+						)}
 					</li>
 				))
 			}
@@ -99,6 +205,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 </header>
 
 <script>
+	// Mobile menu toggle
 	const toggle = document.getElementById('nav-toggle');
 	const menu = document.getElementById('mobile-nav');
 	toggle?.addEventListener('click', () => {
@@ -108,4 +215,45 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 		toggle.querySelector('.nav-open-icon')?.classList.toggle('hidden', !open);
 		toggle.querySelector('.nav-close-icon')?.classList.toggle('hidden', open);
 	});
+
+	// Desktop Services dropdown: opens on hover, keyboard focus, and click/tap.
+	// aria-expanded always reflects the real visible state (screen-reader correct).
+	const dropdown = document.querySelector<HTMLElement>('[data-dropdown]');
+	if (dropdown) {
+		const trigger = dropdown.querySelector<HTMLButtonElement>('[data-dropdown-toggle]');
+		const panel = dropdown.querySelector<HTMLElement>('[data-dropdown-menu]');
+		const chevron = dropdown.querySelector<SVGElement>('[data-dropdown-chevron]');
+		const shown = ['visible', 'opacity-100', 'translate-y-0'];
+		const hidden = ['invisible', 'opacity-0', 'translate-y-1'];
+
+		const setOpen = (open: boolean) => {
+			trigger?.setAttribute('aria-expanded', String(open));
+			chevron?.classList.toggle('rotate-180', open);
+			panel?.classList.remove(...(open ? hidden : shown));
+			panel?.classList.add(...(open ? shown : hidden));
+		};
+
+		// Pointer (the requested mouse-over behavior)
+		dropdown.addEventListener('mouseenter', () => setOpen(true));
+		dropdown.addEventListener('mouseleave', () => setOpen(false));
+
+		// Touch / click on the chevron
+		trigger?.addEventListener('click', () => {
+			setOpen(trigger.getAttribute('aria-expanded') !== 'true');
+		});
+
+		// Keyboard focus anywhere in the group opens it; leaving closes it
+		dropdown.addEventListener('focusout', (event) => {
+			if (!dropdown.contains(event.relatedTarget as Node)) setOpen(false);
+		});
+		dropdown.addEventListener('focusin', () => setOpen(true));
+
+		// Escape closes and returns focus to the toggle
+		dropdown.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape') {
+				setOpen(false);
+				trigger?.focus();
+			}
+		});
+	}
 </script>

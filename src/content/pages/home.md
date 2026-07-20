@@ -2,7 +2,7 @@
 title: Home
 heroHeading: "Online Therapy for Adults and Couples in Colorado"
 heroSubheading: "Empowering you to make enduring change."
-seoDescription: "Online counseling for adults and couples across Colorado. Anxiety, depression, addiction, and men's counseling with Eric Tulga, [CRED]. Free consultation."
+seoDescription: "Online counseling for adults and couples across Colorado. Anxiety, depression, addiction, and men's counseling with Eric Tulga, MA, LPC. Free consultation."
 ---
 
 Welcome to Custom Counseling. You have made a massive step in your journey just by being here.
