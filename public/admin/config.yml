@@ -27,8 +27,12 @@ singletons:
           label: "Internal Title (not shown on the page)",
           widget: string,
         }
-      - { name: heroHeading, label: "Hero Heading", widget: string }
-      - { name: heroSubheading, label: "Hero Subheading", widget: string }
+      - {
+          name: heroTagline,
+          label: "Hero Tagline",
+          widget: string,
+          hint: "The line shown under the logo on the home page.",
+        }
       - {
           name: seoDescription,
           label: "SEO Description",

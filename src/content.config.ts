@@ -9,8 +9,9 @@ const pages = defineCollection({
 	loader: glob({ pattern: '*.md', base: './src/content/pages' }),
 	schema: z.object({
 		title: z.string(),
-		heroHeading: z.string().optional(),
-		heroSubheading: z.string().optional(),
+		// Optional at the schema level because the `pages` collection is shared
+		// with about.md, which has no tagline; the CMS marks it required on Home.
+		heroTagline: z.string().optional(),
 		seoDescription: z.string().max(160).optional(),
 	}),
 });

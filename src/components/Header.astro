@@ -1,7 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import logo from '../assets/images/custom-counseling-logo.png';
 
-// Site header: logo placeholder, primary nav, form-first CTA (D5).
+// Site header: full wordmark logo, primary nav, form-first CTA (D5).
 // The Services item opens a dropdown of the individual specialty pages.
 const navItems = [
 	{ href: '/about', label: 'About' },
@@ -23,19 +25,15 @@ const onServices = currentPath === '/services' || serviceLinks.some((s) => s.hre
 
 <header class="sticky top-0 z-40 border-b border-stone-200 bg-cream-50/95 backdrop-blur">
 	<div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-		<a href="/" class="flex items-center gap-3">
-			<!-- Logo placeholder: swap for Eric's real logo file (D10 keeps the current logo). -->
-			<span
-				aria-hidden="true"
-				class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-800 font-display text-lg font-semibold text-clay-200"
-				>CC</span
-			>
-			<span class="leading-tight">
-				<span class="block font-display text-lg font-semibold">Custom Counseling</span>
-				<span class="block text-xs tracking-wide text-slate-500 uppercase"
-					>Online Therapy in Colorado</span
-				>
-			</span>
+		<a href="/" class="flex items-center">
+			<Image
+				src={logo}
+				alt="Custom Counseling"
+				width={217}
+				height={80}
+				loading="eager"
+				class="h-10 w-auto"
+			/>
 		</a>
 
 		<nav aria-label="Main" class="hidden lg:block">
