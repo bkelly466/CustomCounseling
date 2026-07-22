@@ -1,11 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ImagePlaceholder from '../components/ImagePlaceholder.astro';
 import ServiceCards from '../components/ServiceCards.astro';
 import FirstSteps from '../components/FirstSteps.astro';
 import { getEntry, render } from 'astro:content';
 import { Image } from 'astro:assets';
-import logo from '../assets/images/custom-counseling-logo.png';
+// Hero background: Maroon Bells, Colorado. Photo by GSN Travel via Pexels (free license).
+import heroBg from '../assets/images/hero-maroon-bells.jpg';
+import manPhoto from '../assets/images/man-online-session.jpg';
 
 // Hero + intro copy is CMS-editable (pages/home); layout stays code-only.
 const home = await getEntry('pages', 'home');
@@ -37,43 +38,31 @@ const jsonLd = JSON.stringify({
 
 	<!-- Hero -->
 	<section class="relative isolate overflow-hidden border-b border-stone-200">
-		<!--
-			Full-bleed background. Brand-gradient placeholder until a wide Colorado
-			landscape photo arrives. To use a real photo, drop it in src/assets/images,
-			import it, and replace the gradient <div> below with:
-				<Image src={heroBg} alt="" width={2400} height={1200}
-					class="absolute inset-0 -z-10 h-full w-full object-cover" />
-				<div class="absolute inset-0 -z-10 bg-ink-950/40"></div>
-			A darkened photo will need a white version of the logo + lighter text.
-		-->
+		<!-- Full-bleed Colorado mountains background + dark scrim so the copy stays legible. -->
+		<Image
+			src={heroBg}
+			alt=""
+			widths={[768, 1280, 1920, 2560]}
+			sizes="100vw"
+			loading="eager"
+			class="absolute inset-0 -z-10 h-full w-full object-cover object-center md:object-top"
+		/>
 		<div
-			class="absolute inset-0 -z-10 bg-gradient-to-b from-cream-50 via-stone-100 to-stone-200"
+			class="absolute inset-0 -z-10 bg-linear-to-b from-ink-950/20 via-ink-950/35 to-ink-950/50"
 		>
 		</div>
 
 		<div
-			class="mx-auto flex max-w-3xl flex-col items-center px-4 py-20 text-center sm:px-6 md:py-28"
+			class="mx-auto flex max-w-3xl flex-col items-center px-4 py-24 text-center text-cream-50 [text-shadow:0_1px_3px_rgb(0_0_0/0.45)] sm:px-6 md:py-32"
 		>
-			<Image
-				src={logo}
-				alt="Custom Counseling"
-				width={640}
-				height={236}
-				densities={[1, 2]}
-				loading="eager"
-				class="w-lg max-w-full sm:w-160"
-			/>
-			<h1 class="mt-6 font-display text-lg text-slate-900 md:text-xl">
-				{home.data.heroTagline}
+			<h1 class="font-display text-3xl italic sm:text-4xl md:text-5xl">
+				{home.data.heroSlogan}
 			</h1>
-			<div class="mt-8 flex flex-wrap items-center justify-center gap-4">
-				<a href="/contact" class="btn-primary">Free 15-minute consultation</a>
-				<a
-					href={`tel:${settings.data.phone}`}
-					class="text-sm font-medium text-slate-800 underline underline-offset-2 hover:text-clay-700"
-				>
-					or call/text {settings.data.phone}
-				</a>
+			<p class="mt-5 text-lg md:text-xl">
+				{home.data.heroTagline}
+			</p>
+			<div class="mt-8 flex justify-center">
+				<a href="/contact" class="btn-primary">Free consultation</a>
 			</div>
 		</div>
 	</section>
@@ -104,7 +93,16 @@ const jsonLd = JSON.stringify({
 
 	<!-- Online-first reassurance -->
 	<section class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 md:py-20">
-		<ImagePlaceholder label="Photo — online session on a laptop" />
+		<div class="overflow-hidden rounded-lg shadow-sm" style="aspect-ratio: 4 / 5">
+			<Image
+				src={manPhoto}
+				alt="A man on a video counseling session on his laptop by a sunny window at home"
+				width={800}
+				height={1200}
+				densities={[1, 2]}
+				class="h-full w-full object-cover object-[50%_30%]"
+			/>
+		</div>
 		<div>
 			<h2 class="text-3xl md:text-4xl">Counseling from wherever you are</h2>
 			<div class="prose-site mt-5">

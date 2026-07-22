@@ -28,10 +28,16 @@ singletons:
           widget: string,
         }
       - {
+          name: heroSlogan,
+          label: "Hero Slogan",
+          widget: string,
+          hint: "The large headline over the home-page hero photo.",
+        }
+      - {
           name: heroTagline,
           label: "Hero Tagline",
           widget: string,
-          hint: "The line shown under the logo on the home page.",
+          hint: "The smaller line under the hero slogan.",
         }
       - {
           name: seoDescription,

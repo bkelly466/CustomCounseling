@@ -10,7 +10,8 @@ const pages = defineCollection({
 	schema: z.object({
 		title: z.string(),
 		// Optional at the schema level because the `pages` collection is shared
-		// with about.md, which has no tagline; the CMS marks it required on Home.
+		// with about.md, which has neither; the CMS marks them required on Home.
+		heroSlogan: z.string().optional(),
 		heroTagline: z.string().optional(),
 		seoDescription: z.string().max(160).optional(),
 	}),
