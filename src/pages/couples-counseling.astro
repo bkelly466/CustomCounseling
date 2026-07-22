@@ -2,6 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
 import FirstSteps from '../components/FirstSteps.astro';
+import { Image } from 'astro:assets';
+import couplesPhoto from '../assets/images/DenverMarriageCounseling.jpeg';
 
 const questions = [
 	'Does it seem like your words are never really heard?',
@@ -21,7 +23,7 @@ const questions = [
 		subhead="A confidential mediator can be the difference maker you've been looking for."
 	/>
 
-	<section class="mx-auto max-w-3xl px-4 py-14 sm:px-6 md:py-20">
+	<section class="mx-auto max-w-3xl px-4 pt-14 sm:px-6 md:pt-20">
 		<div class="prose-site text-lg">
 			<p>
 				When couples call, it often goes like this: <em
@@ -41,8 +43,18 @@ const questions = [
 				))
 			}
 		</ul>
+	</section>
 
-		<div class="prose-site mt-12 text-lg">
+	<Image
+		src={couplesPhoto}
+		alt="A couple embracing outdoors at dusk, holding their baby between them"
+		widths={[768, 1280, 1920, 2500]}
+		sizes="100vw"
+		class="mt-14 h-80 w-full object-cover object-[50%_25%] sm:h-88 md:mt-20 md:h-104 lg:h-124"
+	/>
+
+	<section class="mx-auto max-w-3xl px-4 pt-14 pb-14 sm:px-6 md:pt-20 md:pb-20">
+		<div class="prose-site text-lg">
 			<h2 class="text-3xl">A focused 8–12 week approach</h2>
 			<p>
 				I typically spend <strong>8 to 12 weeks</strong> working with a couple. It is not an
