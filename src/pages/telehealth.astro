@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
-import ImagePlaceholder from '../components/ImagePlaceholder.astro';
 import FirstSteps from '../components/FirstSteps.astro';
+import { Image } from 'astro:assets';
+import couplePhoto from '../assets/images/couple-online-session.jpg';
 
 const checklist = [
 	'A phone or computer',
@@ -65,7 +66,14 @@ const checklist = [
 					}
 				</ul>
 			</div>
-			<ImagePlaceholder label="Photo — session setup at home" />
+			<Image
+				src={couplePhoto}
+				alt="A couple at home on their couch, meeting with their counselor over a laptop"
+				width={800}
+				height={533}
+				densities={[1, 2]}
+				class="w-full rounded-lg shadow-sm"
+			/>
 		</div>
 
 		<div class="prose-site mt-12 text-lg">
