@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# The CMS login screen. It already sends noindex, but there's no reason to
+# spend crawl budget on it or to surface it in search results.
+Disallow: /admin
+
 Sitemap: https://denvercustomcounseling.com/sitemap-index.xml

@@ -2,13 +2,27 @@
 // Contact form per build-reference §7: name, email, phone (optional),
 // free-text "what's bringing you here?" (optional). Nothing clinical.
 //
-// Web3Forms access key. Public by design (it sits in the page source). Currently
-// registered to Brandon's inbox for testing — SWITCH TO ERIC'S EMAIL AT LAUNCH
-// (register a new key at web3forms.com with Eric's address, per RUNBOOK.md).
+// ┌─────────────────────────────────────────────────────────────────────────┐
+// │ LAUNCH BLOCKER — this key points at BRANDON'S inbox, not Eric's.        │
+// │                                                                         │
+// │ Every inquiry from the live site lands in the wrong mailbox until the   │
+// │ constant below is replaced with a key registered to                     │
+// │ eric@denvercustomcounseling.com. That is the ONLY change needed here —  │
+// │ one line, then rebuild. Full procedure in RUNBOOK.md, "Switching form   │
+// │ delivery to Eric's inbox".                                              │
+// └─────────────────────────────────────────────────────────────────────────┘
+//
+// The key is public by design — it ships in the page source, and Web3Forms
+// treats it as a form id rather than a secret. Deliberately hardcoded rather
+// than read from an env var: a missing PUBLIC_* var at build time would fail
+// silently and leave a form that looks fine and delivers nowhere.
+//
+// Verified 2026-08-10 against a production build: real submission accepted by
+// the API, success panel rendered, error path exercised.
 import { getEntry } from 'astro:content';
 
 const settings = await getEntry('settings', 'site');
-const ACCESS_KEY = '6c7cb2d4-8f39-469c-9229-f4dd3bc6087c';
+const ACCESS_KEY = '6c7cb2d4-8f39-469c-9229-f4dd3bc6087c'; // ← swap to Eric's key at launch
 ---
 
 <form
@@ -118,11 +132,15 @@ const ACCESS_KEY = '6c7cb2d4-8f39-469c-9229-f4dd3bc6087c';
 		success?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 	}
 
-	function showError(message?: string) {
+	// Visitors always get the same plain-English line. Web3Forms' own `message`
+	// is developer-facing ("Invalid form_id/access_key format. Must be a valid
+	// UUID.", quota errors) and has no business appearing on the contact page of
+	// a counseling practice — it goes to the console for whoever is debugging.
+	function showError(apiMessage?: string) {
+		if (apiMessage) console.error('Web3Forms rejected the submission:', apiMessage);
 		if (!error) return;
 		error.textContent =
-			message ||
-			'Something went wrong sending your message. Please try again, or call/text us instead.';
+			'Something went wrong sending your message. Please try again, or call or text me instead.';
 		error.hidden = false;
 	}
 

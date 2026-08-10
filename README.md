@@ -91,6 +91,7 @@ generated at build time via `@astrojs/sitemap`.
 ## Notes
 
 - Images, logo, and favicon are **placeholders** pending the client's assets.
-- The contact form is built but not yet connected to a live endpoint.
+- The contact form delivers live through Web3Forms, currently to a testing
+  inbox. The access key is swapped for the client's own at launch.
 - Setup and handoff documentation is maintained locally and intentionally kept
   out of version control.

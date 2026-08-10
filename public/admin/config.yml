@@ -39,12 +39,17 @@ singletons:
           widget: string,
           hint: "The smaller line under the hero slogan.",
         }
+      # maxlength is not cosmetic: src/content.config.ts caps this at 160 with
+      # z.string().max(160), and a longer value fails the Astro build. The CMS
+      # commit would still succeed, so Eric would see "published" and the site
+      # would silently stay on the previous deploy. Enforce it at the keyboard.
       - {
           name: seoDescription,
           label: "SEO Description",
           widget: text,
           required: false,
-          hint: "Shown in Google search results. Keep it under 160 characters.",
+          maxlength: 160,
+          hint: "Shown in Google search results. Must be under 160 characters.",
         }
       - { name: body, label: "Intro Text", widget: richtext }
 
@@ -63,6 +68,8 @@ singletons:
           label: "SEO Description",
           widget: text,
           required: false,
+          maxlength: 160, # same build-breaking cap as Home — see note above
+          hint: "Shown in Google search results. Must be under 160 characters.",
         }
       - { name: body, label: "Bio", widget: richtext }
 
@@ -76,7 +83,19 @@ singletons:
         widget: object
         fields:
           - { name: phone, label: "Phone Number", widget: string }
-          - { name: email, label: "Email Address", widget: string }
+          # The content schema validates this with z.string().email(); a typo
+          # here (missing @, missing .com) fails the build rather than showing
+          # a broken address, so catch it in the editor instead.
+          - {
+              name: email,
+              label: "Email Address",
+              widget: string,
+              pattern:
+                [
+                  '^[^@\s]+@[^@\s]+\.[^@\s]+$',
+                  "Enter a complete email address, e.g. eric@denvercustomcounseling.com",
+                ],
+            }
           - {
               name: serviceArea,
               label: "Service Area Blurb",

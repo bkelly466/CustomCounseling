@@ -6,6 +6,15 @@
 		<title>Content Admin — Denver Custom Counseling</title>
 	</head>
 	<body>
-		<script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+		<!--
+			Pinned deliberately. Unpinned, this URL resolves to whatever @sveltia/cms
+			published most recently, so a bad upstream release breaks Eric's only
+			editing screen with no change on our side and nothing in our logs to
+			explain it (see RUNBOOK.md, "Eric can't log in to /admin").
+
+			To upgrade: bump the version, load /admin, sign in, and confirm an
+			edit → publish round-trip before pushing.
+		-->
+		<script src="https://unpkg.com/@sveltia/cms@0.184.0/dist/sveltia-cms.js"></script>
 	</body>
 </html>
