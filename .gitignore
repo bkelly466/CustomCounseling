@@ -17,6 +17,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# Lighthouse reports (pre/post-cutover baselines)
+lighthouse/
+
 # macOS-specific files
 .DS_Store
 
