@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
 #
 # Sveltia CMS config. The one-time setup (GitHub OAuth app + auth worker) is
-# done — see CMS-SETUP.md for the current state and the remaining cutover step.
+# done — see HANDBOOK.md Part 5 for current state and the remaining cutover step.
 #
 # Nothing here names a user. Eric's access comes entirely from being a GitHub
 # collaborator on the repo below, plus the worker's ALLOWED_DOMAINS allowing the
@@ -9,7 +9,7 @@
 # Cloudflare change, never a change to this file.
 #
 # Field constraints here must mirror src/content.config.ts — a Zod violation is
-# a hard build failure that Eric never sees. See CMS-SETUP.md.
+# a hard build failure that Eric never sees. See HANDBOOK.md Part 5.
 
 backend:
   name: github

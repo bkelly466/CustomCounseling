@@ -27,9 +27,7 @@ lighthouse/
 .idea/
 
 CLAUDE.md
-CMS-SETUP.md
-HANDOFF.md
+HANDBOOK.md
 RUNBOOK.md
-DNS-CUTOVER.md
 AGENTS.md
 .claude/agents
