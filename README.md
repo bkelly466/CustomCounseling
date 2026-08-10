@@ -90,8 +90,9 @@ generated at build time via `@astrojs/sitemap`.
 
 ## Notes
 
-- Images, logo, and favicon are **placeholders** pending the client's assets.
-- The contact form delivers live through Web3Forms, currently to a testing
-  inbox. The access key is swapped for the client's own at launch.
+- All images, logo, and favicons are the client's own assets, served through
+  Astro's `<Image>` component.
+- The contact form delivers live through Web3Forms to the client's inbox.
+- Copy is editable by the client through Sveltia CMS at `/admin`.
 - Setup and handoff documentation is maintained locally and intentionally kept
   out of version control.
