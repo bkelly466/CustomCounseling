@@ -172,6 +172,28 @@ If spam becomes real, the escalation is the self-built Pages Function +
 Turnstile form (Turnstile sets no third-party cookies), not a captcha bolted
 onto the free tier. Accept the metered-billing caveat below when that happens.
 
+### Correction — 2026-08-10
+
+One mitigation named above does not exist on the free tier. **The 90%-quota
+warning cannot be "routed to both Brandon and Eric":** Web3Forms' free plan
+allows **one email recipient per form**, with multiple recipients gated to Pro
+(read directly off their pricing page on this date). Free does permit two
+*linked addresses* on an account, which is a different thing, and whether the
+quota warning follows them is unconfirmed.
+
+This does not change the decision — the honeypot and the visible phone/email
+fallback stand, and the risk it hedges is still theoretical. It does mean the
+interim coverage is thinner than this document claimed, resting on a warning to
+Eric alone plus the monthly manual check in RUNBOOK.md. Weigh that if spam ever
+makes the escalation a live question.
+
+Two figures flagged below as unverified are now confirmed from the same page:
+**Web3Forms Pro is $14/mo billed yearly at $162**, inside the ~$144–216/yr range
+this ADR assumed, so the conclusion built on it holds. **Origin-locking the key
+("Restrict to Domains") is indeed Pro-only.** Also confirmed free-tier: the 250
+submission cap, automatic Reply-To, and custom email subject — all three are
+relied on by the shipped form.
+
 ## Revisit this decision if
 
 - Cloudflare announces changes to Pages or Workers free-tier pricing
@@ -200,8 +222,12 @@ onto the free tier. Accept the metered-billing caveat below when that happens.
   [retracted phishing report](https://community.cloudflare.com/t/cf-shut-down-my-services-a-week-ago-due-to-a-meanwhile-retracted-phishing-report/615353),
   [false-positive escalation](https://community.cloudflare.com/t/account-suspended-false-positive-phishing-escalate-to-trust-safety/931830)
 
-Figures not independently verified and flagged as such: Web3Forms Pro exact
-pricing (their pricing page blocks automated fetch; ~$12–18/mo per third-party
-comparisons — verify before quoting to the client), and Cloudflare's exact
-behaviour at build #501 (undocumented; no pay-per-build option exists, so the
-outcome is a hard stop or a plan upgrade, not metered billing).
+Figures not independently verified and flagged as such: ~~Web3Forms Pro exact
+pricing~~ (**resolved 2026-08-10 — $14/mo, $162/yr; see the correction above**),
+and Cloudflare's exact behaviour at build #501 (undocumented; no pay-per-build
+option exists, so the outcome is a hard stop or a plan upgrade, not metered
+billing).
+
+Note for anyone re-checking these: web3forms.com sits behind a bot challenge
+that blocks `curl` and automated fetchers with a 403 — the pricing figures above
+were read in a real browser session, not scraped.
