@@ -1,8 +1,15 @@
 # yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
 #
-# Sveltia CMS config. See CMS-SETUP.md at the repo root for the one-time
-# setup steps (GitHub OAuth app + auth worker) that make the two TODOs
-# below work.
+# Sveltia CMS config. The one-time setup (GitHub OAuth app + auth worker) is
+# done — see CMS-SETUP.md for the current state and the remaining cutover step.
+#
+# Nothing here names a user. Eric's access comes entirely from being a GitHub
+# collaborator on the repo below, plus the worker's ALLOWED_DOMAINS allowing the
+# origin he loads /admin from. Adding or removing an editor is a GitHub and
+# Cloudflare change, never a change to this file.
+#
+# Field constraints here must mirror src/content.config.ts — a Zod violation is
+# a hard build failure that Eric never sees. See CMS-SETUP.md.
 
 backend:
   name: github
@@ -51,7 +58,37 @@ singletons:
           maxlength: 160,
           hint: "Shown in Google search results. Must be under 160 characters.",
         }
-      - { name: body, label: "Intro Text", widget: richtext }
+      # editor_components defaults to ALL built-ins, which includes `image` —
+      # that uploads into public/images/uploads, bypassing Astro's <Image>
+      # optimization and putting the 100 Performance score at the mercy of
+      # whatever file gets dragged in. Empty list disables it: new images go
+      # through Brandon and the optimized path.
+      #
+      # The button list is restricted to what the CSS actually styles.
+      # Excluded on purpose: heading-one (every page already has an H1 — a
+      # second one is an accessibility and SEO regression), heading-four
+      # through -six, quote, and code (no styles exist for them in
+      # src/styles/global.css, so they'd render unstyled).
+      #
+      # Repeated verbatim on every richtext field below rather than using a
+      # YAML anchor — if Sveltia's parser ever disagreed about aliases, the
+      # blast radius is Eric's entire editing screen.
+      - {
+          name: body,
+          label: "Intro Text",
+          widget: richtext,
+          editor_components: [],
+          buttons:
+            [
+              bold,
+              italic,
+              link,
+              heading-two,
+              heading-three,
+              bulleted-list,
+              numbered-list,
+            ],
+        }
 
   - name: about
     label: About Page
@@ -71,7 +108,22 @@ singletons:
           maxlength: 160, # same build-breaking cap as Home — see note above
           hint: "Shown in Google search results. Must be under 160 characters.",
         }
-      - { name: body, label: "Bio", widget: richtext }
+      - {
+          name: body,
+          label: "Bio",
+          widget: richtext,
+          editor_components: [], # no image uploads — see note on Home's body
+          buttons:
+            [
+              bold,
+              italic,
+              link,
+              heading-two,
+              heading-three,
+              bulleted-list,
+              numbered-list,
+            ],
+        }
 
   - name: settings
     label: Site Settings
@@ -153,6 +205,17 @@ collections:
           label: "Full Description (optional)",
           widget: richtext,
           required: false,
+          editor_components: [], # no image uploads — see note on Home's body
+          buttons:
+            [
+              bold,
+              italic,
+              link,
+              heading-two,
+              heading-three,
+              bulleted-list,
+              numbered-list,
+            ],
         }
 
   - name: faq
@@ -170,4 +233,19 @@ collections:
           widget: number,
           default: 1,
         }
-      - { name: body, label: Answer, widget: richtext }
+      - {
+          name: body,
+          label: Answer,
+          widget: richtext,
+          editor_components: [], # no image uploads — see note on Home's body
+          buttons:
+            [
+              bold,
+              italic,
+              link,
+              heading-two,
+              heading-three,
+              bulleted-list,
+              numbered-list,
+            ],
+        }
