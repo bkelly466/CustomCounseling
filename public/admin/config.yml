@@ -171,6 +171,13 @@ singletons:
           hint: "Shown in Google search results. Must be under 160 characters.",
         }
       - {
+          name: funList,
+          label: "What I like to do for fun",
+          widget: list,
+          field: { name: item, label: Item, widget: string },
+          hint: "Shown as a bulleted list, in this order. Keep each one to a line.",
+        }
+      - {
           name: body,
           label: "Bio",
           widget: richtext,

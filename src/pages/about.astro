@@ -9,17 +9,10 @@ import { getEntry, render } from 'astro:content';
 const about = await getEntry('pages', 'about');
 const { Content: Bio } = await render(about);
 
-// The "fun" list survives the rebuild on purpose — it's the best trust
-// content on the old site (build reference §4).
-const funList = [
-	'Making my rockstar wife laugh',
-	'Playing with my Husky',
-	'Going to the gym',
-	'Watching any sports, but especially Manchester United, the Cincinnati Bengals, and the White Sox (it’s a long story)',
-	'Cooking new recipes, especially smoking meat',
-	'Watching The Office for the 100th time and going to live comedy shows',
-	'Snowboarding with friends and family',
-];
+// The "fun" list survives the rebuild on purpose — it's the best trust content
+// on the old site (build reference §4). CMS-editable because it dates faster
+// than anything else here: pets, teams, and hobbies change.
+const { funList = [] } = about.data;
 ---
 
 <Layout

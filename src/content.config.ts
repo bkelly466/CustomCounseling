@@ -21,6 +21,11 @@ const pages = defineCollection({
 		heroTagline: z.string().optional(),
 		seoDescription: z.string().max(160).optional(),
 
+		// About (about.md). The "what I like to do for fun" list is the best
+		// trust content carried over from the old site (build reference §4), and
+		// the thing most likely to go stale — so Eric owns it.
+		funList: z.array(z.string()).optional(),
+
 		// Online Sessions (telehealth.md). Layout, headings, and the photo stay
 		// code-owned; only the prose is editable.
 		firstSessionSteps: z.array(z.string()).optional(),

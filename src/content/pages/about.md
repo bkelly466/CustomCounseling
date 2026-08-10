@@ -1,6 +1,14 @@
 ---
 title: About Eric
 seoDescription: "Meet Eric Tulga, MA, LPC — a Colorado-licensed counselor working with adults and couples online. Warm, practical, and a little bit funny."
+funList:
+  - Making my rockstar wife laugh
+  - Playing with my Husky
+  - Going to the gym
+  - Watching any sports, but especially Manchester United, the Cincinnati Bengals, and the White Sox (it’s a long story)
+  - Cooking new recipes, especially smoking meat
+  - Watching The Office for the 100th time and going to live comedy shows
+  - Snowboarding with friends and family
 ---
 
 I am a counselor because I believe people are capable of far more than just getting through life. My goal is to help you live a **fulfilling and meaningful** one.
