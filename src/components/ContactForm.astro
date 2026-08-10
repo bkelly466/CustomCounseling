@@ -2,27 +2,22 @@
 // Contact form per build-reference §7: name, email, phone (optional),
 // free-text "what's bringing you here?" (optional). Nothing clinical.
 //
-// ┌─────────────────────────────────────────────────────────────────────────┐
-// │ LAUNCH BLOCKER — this key points at BRANDON'S inbox, not Eric's.        │
-// │                                                                         │
-// │ Every inquiry from the live site lands in the wrong mailbox until the   │
-// │ constant below is replaced with a key registered to                     │
-// │ eric@denvercustomcounseling.com. That is the ONLY change needed here —  │
-// │ one line, then rebuild. Full procedure in RUNBOOK.md, "Switching form   │
-// │ delivery to Eric's inbox".                                              │
-// └─────────────────────────────────────────────────────────────────────────┘
+// Web3Forms delivery. This key is registered to eric@denvercustomcounseling.com
+// — inquiries go to Eric directly. (It replaced a testing key that delivered to
+// Brandon; if inquiries ever arrive in the wrong inbox, this line is why.)
 //
 // The key is public by design — it ships in the page source, and Web3Forms
-// treats it as a form id rather than a secret. Deliberately hardcoded rather
+// treats it as a form id rather than a secret. Origin-locking it is a Pro-tier
+// feature we deliberately don't buy; see ADR-002. Deliberately hardcoded rather
 // than read from an env var: a missing PUBLIC_* var at build time would fail
 // silently and leave a form that looks fine and delivers nowhere.
 //
-// Verified 2026-08-10 against a production build: real submission accepted by
-// the API, success panel rendered, error path exercised.
+// Free tier delivers to ONE recipient and hard-stops at 250 submissions/month.
+// Changing either is a Pro-tier decision — read ADR-002 first.
 import { getEntry } from 'astro:content';
 
 const settings = await getEntry('settings', 'site');
-const ACCESS_KEY = '6c7cb2d4-8f39-469c-9229-f4dd3bc6087c'; // ← swap to Eric's key at launch
+const ACCESS_KEY = '66f11834-622f-450b-8f2d-14e08d2d5e2e';
 ---
 
 <form
