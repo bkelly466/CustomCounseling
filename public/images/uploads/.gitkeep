@@ -1,0 +1,9 @@
+Keeps this folder in git.
+
+public/admin/config.yml declares it as `media_folder`. Sveltia asks GitHub's
+contents API for it when the media library opens, and an absent folder returns
+a 404 -- which surfaces to Eric as a broken CMS rather than an empty library.
+
+Git does not track empty directories, so this file is what makes the path real.
+Image uploads are disabled in the CMS on purpose (see HANDBOOK.md Part 5), so
+this folder is expected to stay empty.
