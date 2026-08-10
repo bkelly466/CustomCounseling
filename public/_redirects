@@ -1,7 +1,37 @@
-# 301 redirect map (build reference §5). Slugs that survived keep their URLs.
-/counseling-services-offered  /services  301
-/denver-counselor             /about     301
-/contact-counselor            /contact   301
-/affordable-counseling-faqs   /faq       301
-/just-coffee-counseling       /contact   301
-/cart                         /          301
+# 301 redirect map. Slugs that survived keep their URLs and need no entry here.
+#
+# Verified 2026-08-10 against the live Squarespace site by two independent
+# methods that agreed exactly: its /sitemap.xml (13 published pages) and a full
+# internal-link crawl of every one of those pages. Together they enumerate 15
+# paths; every one is either preserved below, redirected below, or already
+# lives at the same slug on the new site.
+#
+# Targets carry a trailing slash on purpose. Cloudflare Pages serves the
+# directory form canonically and 308s the bare path, so "/services" here would
+# make every inbound link a two-hop chain (301 -> /services, 308 -> /services/).
+# Re-check with:  curl -sIL -w '%{num_redirects}\n' <url>
+#
+# Re-verify this file if Eric adds or renames a page in Squarespace before
+# cutover.
+
+# --- Pages whose slug changed ---
+/counseling-services-offered  /services/  301
+/denver-counselor             /about/     301
+/contact-counselor            /contact/   301
+/affordable-counseling-faqs   /faq/       301
+
+# The "Just Coffee Counseling" offer page; folded into the contact page.
+/just-coffee-counseling       /contact/   301
+
+# Squarespace exposes the home page at BOTH / and its page slug, with the slug's
+# canonical pointing at the root. Indexed and linked, so it needs a home.
+/custom-counseling-llc        /           301
+
+# Squarespace's own 404 page, which it serves with a 200 and lists in its
+# sitemap. Google has likely indexed it; send it somewhere real rather than
+# letting it become a genuine 404 at cutover.
+/404-error                    /           301
+
+# Abandoned Squarespace commerce route. Not in their sitemap, but linked in the
+# page chrome, so it is reachable and worth catching.
+/cart                         /           301
