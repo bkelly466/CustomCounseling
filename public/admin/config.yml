@@ -90,6 +90,68 @@ singletons:
             ],
         }
 
+  # Online Sessions. Only the prose is here — the section headings, the numbered
+  # circles, the photo, and the page layout stay in src/pages/telehealth.astro.
+  - name: telehealth
+    label: Online Sessions Page
+    icon: videocam
+    file: src/content/pages/telehealth.md
+    fields:
+      - {
+          name: title,
+          label: "Internal Title (not shown on the page)",
+          widget: string,
+        }
+      - {
+          name: seoDescription,
+          label: "SEO Description",
+          widget: text,
+          required: false,
+          maxlength: 160, # same build-breaking cap as Home — see note above
+          hint: "Shown in Google search results. Must be under 160 characters.",
+        }
+      - {
+          name: body,
+          label: "Opening paragraphs",
+          widget: richtext,
+          editor_components: [], # no image uploads — see note on Home's body
+          buttons:
+            [
+              bold,
+              italic,
+              link,
+              heading-two,
+              heading-three,
+              bulleted-list,
+              numbered-list,
+            ],
+        }
+      - {
+          name: firstSessionSteps,
+          label: "What a first session looks like",
+          widget: list,
+          field: { name: step, label: Step, widget: text },
+          hint: "Numbered automatically, in this order. Three works best on the page.",
+        }
+      - {
+          name: checklist,
+          label: "What you need",
+          widget: list,
+          field: { name: item, label: Item, widget: string },
+          hint: "Short items — each sits on one line next to a dot.",
+        }
+      - {
+          name: couplesBody,
+          label: "Answer: Couples over video",
+          widget: text,
+        }
+      - { name: privacyBody, label: "Answer: Is it private?", widget: text }
+      - {
+          name: techFailureBody,
+          label: "Answer: What if the tech acts up?",
+          widget: text,
+        }
+
   - name: about
     label: About Page
     icon: person

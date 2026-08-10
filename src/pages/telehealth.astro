@@ -3,19 +3,19 @@ import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
 import FirstSteps from '../components/FirstSteps.astro';
 import { Image } from 'astro:assets';
+import { getEntry, render } from 'astro:content';
 import couplePhoto from '../assets/images/couple-online-session.jpg';
 
-const checklist = [
-	'A phone or computer',
-	'A private spot where you can talk freely',
-	'Headphones if you want extra privacy',
-	'That’s it',
-];
+// Prose is CMS-editable (pages/telehealth); headings, layout, the numbered-step
+// styling, and the photo stay code-only so Eric cannot break the design.
+const page = await getEntry('pages', 'telehealth');
+const { Content: Intro } = await render(page);
+const { firstSessionSteps = [], checklist = [] } = page.data;
 ---
 
 <Layout
 	title="How Online Therapy Sessions Work | Custom Counseling"
-	description="What to expect from online counseling: secure Google Meet sessions, simple setup, and the same conversation you'd have in an office — from home."
+	description={page.data.seoDescription}
 >
 	<PageHero
 		heading="How Online Sessions Work"
@@ -24,32 +24,24 @@ const checklist = [
 
 	<section class="mx-auto max-w-3xl px-4 py-14 sm:px-6 md:py-20">
 		<div class="prose-site text-lg">
-			<p>
-				<strong>Online counseling can be just as effective as in-person.</strong> You can meet me
-				wherever you are. Social anxiety, time constraints, crippling depression, whatever makes
-				leaving the house hard, none of it has to stand between you and getting help.
-			</p>
-			<!-- DRAFT (open item O4): swap in Eric's own elevator pitch for why online works. -->
-			<p>
-				Some of my clients open up more from their own couch than they ever did in an office.
-				Your space is familiar. That helps.
-			</p>
+			<Intro />
 		</div>
 
 		<h2 class="mt-12 text-3xl">What a first session looks like</h2>
 		<ol class="mt-6 space-y-4">
-			<li class="flex gap-4">
-				<span aria-hidden="true" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-clay-400 font-display font-semibold text-ink-950">1</span>
-				<p class="pt-1">After our free 15-minute phone call, I email you a couple of forms to sign. No portals, no passwords.</p>
-			</li>
-			<li class="flex gap-4">
-				<span aria-hidden="true" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-clay-400 font-display font-semibold text-ink-950">2</span>
-				<p class="pt-1">Before our session, I send you a secure Google Meet link. Click it at our time, and we're talking.</p>
-			</li>
-			<li class="flex gap-4">
-				<span aria-hidden="true" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-clay-400 font-display font-semibold text-ink-950">3</span>
-				<p class="pt-1">The first session or two is about getting to know each other. Then we create a plan for the goals you see fit.</p>
-			</li>
+			{
+				firstSessionSteps.map((step, i) => (
+					<li class="flex gap-4">
+						<span
+							aria-hidden="true"
+							class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-clay-400 font-display font-semibold text-ink-950"
+						>
+							{i + 1}
+						</span>
+						<p class="pt-1">{step}</p>
+					</li>
+				))
+			}
 		</ol>
 
 		<div class="mt-12 grid items-center gap-10 md:grid-cols-2">
@@ -78,23 +70,13 @@ const checklist = [
 
 		<div class="prose-site mt-12 text-lg">
 			<h2 class="text-3xl">Couples over video</h2>
-			<p>
-				Most couples join together on one screen at home. Separate devices work too, even if one
-				of you is traveling. We'll figure out what works best for you both.
-			</p>
+			<p>{page.data.couplesBody}</p>
 
 			<h2 class="text-3xl">Is it private?</h2>
-			<p>
-				Yes. Sessions happen over a secure Google Meet link, and what we talk about stays between
-				us, the same as it would in an office.
-			</p>
+			<p>{page.data.privacyBody}</p>
 
 			<h2 class="text-3xl">What if the tech acts up?</h2>
-			<!-- DRAFT (open item O5): confirm Eric's actual tech-failure policy. -->
-			<p>
-				If the call drops, I'll send a fresh link right away. If we can't reconnect, we finish by
-				phone or reschedule the remaining time at no charge.
-			</p>
+			<p>{page.data.techFailureBody}</p>
 		</div>
 	</section>
 
