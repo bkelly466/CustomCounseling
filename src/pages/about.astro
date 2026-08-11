@@ -45,10 +45,27 @@ const { funList = [] } = about.data;
 				<Bio />
 			</div>
 
-			<h2 class="mt-12 text-3xl">What I like to do for fun</h2>
-			<ul class="prose-site mt-5 list-disc space-y-2 pl-6 text-lg">
-				{funList.map((item) => <li>{item}</li>)}
-			</ul>
+			{
+				/*
+				 The whole section is conditional because the list is Eric's to empty.
+				 He cleared it in 09c482c and the page shipped an <h2> above an empty
+				 <ul> — a dangling heading, and invalid HTML besides (<ul> requires at
+				 least one <li>). Rendering nothing is correct whether he meant to drop
+				 the section or intends to refill it.
+				*/
+			}
+			{
+				funList.length > 0 && (
+					<>
+						<h2 class="mt-12 text-3xl">What I like to do for fun</h2>
+						<ul class="prose-site mt-5 list-disc space-y-2 pl-6 text-lg">
+							{funList.map((item) => (
+								<li>{item}</li>
+							))}
+						</ul>
+					</>
+				)
+			}
 		</div>
 	</section>
 
