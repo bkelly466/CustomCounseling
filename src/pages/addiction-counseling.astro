@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
 import FirstSteps from '../components/FirstSteps.astro';
+import RelatedServices from '../components/RelatedServices.astro';
 
 // D8: no "in Recovery" language anywhere on this page or its metadata.
 const addictions = [
@@ -20,10 +21,7 @@ const gains = [
 ];
 ---
 
-<Layout
-	title="Online Addiction Counseling in Colorado | Custom Counseling"
-	description="Confidential online counseling for alcohol, drug, and porn addiction. Individual therapy to understand triggers and build a path forward."
->
+<Layout>
 	<PageHero
 		heading="Addiction & Substance Abuse Counseling, Online in Colorado"
 		subhead="Here during the ups and downs of addiction."
@@ -73,5 +71,6 @@ const gains = [
 		</div>
 	</section>
 
+	<RelatedServices />
 	<FirstSteps />
 </Layout>

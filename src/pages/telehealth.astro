@@ -13,10 +13,7 @@ const { Content: Intro } = await render(page);
 const { firstSessionSteps = [], checklist = [] } = page.data;
 ---
 
-<Layout
-	title="How Online Therapy Sessions Work | Custom Counseling"
-	description={page.data.seoDescription}
->
+<Layout>
 	<PageHero
 		heading="How Online Sessions Work"
 		subhead="The same conversation you'd have in an office, from the comfort of home."

@@ -46,18 +46,12 @@ singletons:
           widget: string,
           hint: "The smaller line under the hero slogan.",
         }
-      # maxlength is not cosmetic: src/content.config.ts caps this at 160 with
-      # z.string().max(160), and a longer value fails the Astro build. The CMS
-      # commit would still succeed, so Eric would see "published" and the site
-      # would silently stay on the previous deploy. Enforce it at the keyboard.
-      - {
-          name: seoDescription,
-          label: "SEO Description",
-          widget: text,
-          required: false,
-          maxlength: 160,
-          hint: "Shown in Google search results. Must be under 160 characters.",
-        }
+      # There is deliberately no "SEO Description" field on any page here.
+      # Titles and meta descriptions are code-owned, in src/lib/seo.ts. The
+      # field used to exist on Home, About, and Online Sessions, but only Online
+      # Sessions ever read it — the other two published edits that changed
+      # nothing on the live site. See docs/adr/0003-code-owned-page-metadata.md.
+      #
       # editor_components defaults to ALL built-ins, which includes `image` —
       # that uploads into public/images/uploads, bypassing Astro's <Image>
       # optimization and putting the 100 Performance score at the mercy of
@@ -101,14 +95,6 @@ singletons:
           name: title,
           label: "Internal Title (not shown on the page)",
           widget: string,
-        }
-      - {
-          name: seoDescription,
-          label: "SEO Description",
-          widget: text,
-          required: false,
-          maxlength: 160, # same build-breaking cap as Home — see note above
-          hint: "Shown in Google search results. Must be under 160 characters.",
         }
       - {
           name: body,
@@ -161,14 +147,6 @@ singletons:
           name: title,
           label: "Internal Title (not shown on the page)",
           widget: string,
-        }
-      - {
-          name: seoDescription,
-          label: "SEO Description",
-          widget: text,
-          required: false,
-          maxlength: 160, # same build-breaking cap as Home — see note above
-          hint: "Shown in Google search results. Must be under 160 characters.",
         }
       - {
           name: funList,

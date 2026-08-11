@@ -2,7 +2,6 @@
 title: Home
 heroSlogan: "Empowering you to make enduring change."
 heroTagline: "Online Counseling From Anywhere in Colorado, Denver to Durango."
-seoDescription: "Online counseling for adults and couples across Colorado. Anxiety, depression, addiction, and men's counseling with Eric Tulga, MA, LPC. Free consultation."
 ---
 
 Welcome to Custom Counseling. You have made a massive step in your journey just by being here.

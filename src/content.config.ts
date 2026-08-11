@@ -19,7 +19,10 @@ const pages = defineCollection({
 		title: z.string(),
 		heroSlogan: z.string().optional(),
 		heroTagline: z.string().optional(),
-		seoDescription: z.string().max(160).optional(),
+
+		// There is deliberately no seoDescription here. Page titles and meta
+		// descriptions are code-owned, in src/lib/seo.ts — see
+		// docs/adr/0003-code-owned-page-metadata.md for why.
 
 		// About (about.md). The "what I like to do for fun" list is the best
 		// trust content carried over from the old site (build reference §4), and

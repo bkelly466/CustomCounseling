@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
 import FirstSteps from '../components/FirstSteps.astro';
+import RelatedServices from '../components/RelatedServices.astro';
 import { Image } from 'astro:assets';
 import couplesPhoto from '../assets/images/DenverMarriageCounseling.jpeg';
 
@@ -14,10 +15,7 @@ const questions = [
 ];
 ---
 
-<Layout
-	title="Online Couples Counseling in Colorado | Custom Counseling"
-	description="Structured online couples counseling — a focused 8–12 week approach to rebuild communication and connection. For couples anywhere in Colorado."
->
+<Layout>
 	<PageHero
 		heading="Online Couples Counseling in Colorado"
 		subhead="A confidential mediator can be the difference maker you've been looking for."
@@ -70,8 +68,10 @@ const questions = [
 				Most couples join together from home on one screen. Separate devices work too. We'll set
 				it up in whatever way gets you both talking.
 			</p>
+			<p><a href="/telehealth">See how online sessions work</a></p>
 		</div>
 	</section>
 
+	<RelatedServices />
 	<FirstSteps />
 </Layout>

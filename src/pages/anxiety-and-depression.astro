@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
 import FirstSteps from '../components/FirstSteps.astro';
+import RelatedServices from '../components/RelatedServices.astro';
 
 // Symptom lists live here ONLY (build reference: consolidated from 3 old pages).
 const anxietySigns = [
@@ -21,10 +22,7 @@ const depressionSigns = [
 ];
 ---
 
-<Layout
-	title="Online Anxiety & Depression Therapy in Colorado"
-	description="Online therapy for anxiety and depression — a confidential space to stabilize, understand what's underneath, and get your life moving again."
->
+<Layout>
 	<PageHero heading="Counseling for Anxiety and Depression" subhead="Let's get your life back." />
 
 	<section class="mx-auto max-w-3xl px-4 py-14 sm:px-6 md:py-20">
@@ -79,5 +77,6 @@ const depressionSigns = [
 		</div>
 	</section>
 
+	<RelatedServices />
 	<FirstSteps />
 </Layout>

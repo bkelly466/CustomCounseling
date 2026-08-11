@@ -1,0 +1,40 @@
+---
+// Lateral links between the service pages.
+//
+// Until this existed, the five service pages contained zero in-content links to
+// each other — every internal link on the site came from chrome (header, footer,
+// service cards, CTA bands). That leaves each page a dead end for a reader who
+// arrived on it from search, and gives crawlers only one path through the site.
+//
+// The component locates itself from the URL rather than taking a `current`
+// prop, so a page just drops <RelatedServices /> in and cannot pass the wrong
+// value. A page with no matching services entry gets the full list, which is
+// the right behaviour for a non-service page.
+import { getCollection } from 'astro:content';
+
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+
+const others = (await getCollection('services'))
+	.filter((service) => service.data.href && service.data.href !== path)
+	.sort((a, b) => a.data.order - b.data.order);
+---
+
+{
+	others.length > 0 && (
+		<section class="border-t border-stone-200 bg-stone-100">
+			<div class="mx-auto max-w-4xl px-4 py-12 sm:px-6 md:py-16">
+				<h2 class="text-2xl">Other ways I can help</h2>
+				<ul class="mt-6 grid gap-x-10 gap-y-6 sm:grid-cols-2">
+					{others.map((service) => (
+						<li>
+							<a href={service.data.href} class="link-inline font-display text-lg">
+								{service.data.title}
+							</a>
+							<p class="mt-1 text-sm leading-relaxed text-slate-800">{service.data.summary}</p>
+						</li>
+					))}
+				</ul>
+			</div>
+		</section>
+	)
+}

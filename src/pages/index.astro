@@ -11,31 +11,12 @@ import manPhoto from '../assets/images/man-online-session.jpg';
 // Hero + intro copy is CMS-editable (pages/home); layout stays code-only.
 const home = await getEntry('pages', 'home');
 const { Content: HomeBody } = await render(home);
-const settings = await getEntry('settings', 'site');
 
-// JSON-LD per build-reference §6: LocalBusiness, areaServed Colorado, no street address.
-const jsonLd = JSON.stringify({
-	'@context': 'https://schema.org',
-	'@type': 'LocalBusiness',
-	'@id': 'https://denvercustomcounseling.com/#practice',
-	name: 'Custom Counseling LLC',
-	url: 'https://denvercustomcounseling.com/',
-	telephone: '+1-720-235-8357',
-	email: settings.data.email,
-	description:
-		'Online counseling for adults and couples across Colorado: anxiety, depression, addiction, men’s counseling, couples counseling, and counseling for veterans.',
-	founder: { '@type': 'Person', name: 'Eric Tulga' },
-	areaServed: { '@type': 'State', name: 'Colorado' },
-	priceRange: '$140-$175',
-});
+// Title, description, and the LocalBusiness + Person JSON-LD (build reference
+// §6: areaServed Colorado, no street address) all come from src/lib/seo.ts now.
 ---
 
-<Layout
-	title="Online Therapy in Colorado | Custom Counseling LLC"
-	description="Online counseling for adults and couples across Colorado. Anxiety, depression, addiction, and men's counseling with Eric Tulga, MA, LPC. Free 15-minute consultation."
->
-	<script slot="head" type="application/ld+json" set:html={jsonLd} />
-
+<Layout>
 	<!-- Hero -->
 	<section class="relative isolate overflow-hidden border-b border-stone-200">
 		<!-- Full-bleed Colorado mountains background + dark scrim so the copy stays legible. -->

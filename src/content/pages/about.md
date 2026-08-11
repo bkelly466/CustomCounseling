@@ -1,6 +1,5 @@
 ---
 title: About Eric
-seoDescription: Meet Eric Tulga, MA, LPC — a Colorado-licensed counselor working with adults and couples online. Warm, practical, and a little bit funny.
 ---
 
 I am a counselor because I believe people are capable of far more than just getting through life. My goal is to help you live a **fulfilling and meaningful** one. I'm not going to nod quietly for fifty minutes. I'll ask direct questions, push back when something doesn't add up, and give you something to do between sessions.

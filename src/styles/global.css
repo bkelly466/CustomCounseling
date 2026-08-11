@@ -124,7 +124,11 @@
 		@apply space-y-4 leading-relaxed;
 	}
 
-	.prose-site a {
+	/* .link-inline is the same treatment for links that sit outside a .prose-site
+	   block — the bulleted topic lists on the service pages, where only some
+	   items link. Shared selector so the two can never drift apart. */
+	.prose-site a,
+	.link-inline {
 		@apply font-medium text-clay-700 underline underline-offset-2 hover:text-slate-900;
 	}
 

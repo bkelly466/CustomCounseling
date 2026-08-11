@@ -2,21 +2,22 @@
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
 import FirstSteps from '../components/FirstSteps.astro';
+import RelatedServices from '../components/RelatedServices.astro';
 
-const topics = [
-	'Work stress and pressure to provide',
-	'Anxiety and racing thoughts',
-	'Depression and feeling numb',
-	'Loneliness and isolation',
-	'Anger that comes out sideways',
-	'Feeling stuck, in life or in a relationship',
+// An item links when it names something that has a page of its own. The label
+// is the anchor text, so the link describes its destination instead of saying
+// "learn more".
+const topics: { label: string; href?: string }[] = [
+	{ label: 'Work stress and pressure to provide' },
+	{ label: 'Anxiety and racing thoughts', href: '/anxiety-and-depression' },
+	{ label: 'Depression and feeling numb' },
+	{ label: 'Loneliness and isolation' },
+	{ label: 'Anger that comes out sideways' },
+	{ label: 'Feeling stuck, in life or in a relationship', href: '/couples-counseling' },
 ];
 ---
 
-<Layout
-	title="Men's Online Counseling in Colorado | Custom Counseling"
-	description="Online therapy for men dealing with work stress, anxiety, depression, or feeling stuck. A counselor who gets how men talk. Colorado residents."
->
+<Layout>
 	<PageHero
 		heading="Online Counseling for Men in Colorado"
 		subhead="Stop bottling it up and get the help you need."
@@ -44,7 +45,13 @@ const topics = [
 				topics.map((topic) => (
 					<li class="flex items-center gap-3">
 						<span aria-hidden="true" class="h-2 w-2 shrink-0 rounded-full bg-clay-400" />
-						{topic}
+						{topic.href ? (
+							<a href={topic.href} class="link-inline">
+								{topic.label}
+							</a>
+						) : (
+							topic.label
+						)}
 					</li>
 				))
 			}
@@ -63,5 +70,6 @@ const topics = [
 		</div>
 	</section>
 
+	<RelatedServices />
 	<FirstSteps />
 </Layout>

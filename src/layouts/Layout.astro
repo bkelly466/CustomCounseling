@@ -2,16 +2,27 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { buildHead } from '../lib/seo';
 
 interface Props {
-	/** Page <title>. Pass the full tag text from the metadata sheet (~55 chars). */
-	title: string;
-	/** Meta description (~155 chars). */
-	description: string;
+	/**
+	 * Override the registered <title>. Pages should not normally pass this —
+	 * titles live in the registry in src/lib/seo.ts so the whole set can be
+	 * audited for length and duplication in one file.
+	 */
+	title?: string;
+	/** Override the registered meta description. Same caveat as `title`. */
+	description?: string;
 }
 
-const { title, description } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+// The layout looks its own metadata up from the URL rather than taking it as
+// props. That is the point of the module: a page cannot ship with a missing,
+// duplicated, or stale description, because it never states one.
+const { title, description, canonical, ogImage, jsonLd } = await buildHead(
+	Astro.url,
+	Astro.site,
+	Astro.props,
+);
 ---
 
 <!doctype html>
@@ -28,14 +39,30 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<link rel="sitemap" href="/sitemap-index.xml" />
 
-		<!-- Open Graph / social share. og:image is a placeholder until real assets arrive. -->
+		<!--
+			Open Graph / Twitter. The card at og:image is generated, not designed —
+			`node scripts/build-og-image.mjs` renders it from the home-page hero.
+			Swap the file at that path when a designed card is approved; nothing
+			here changes.
+		-->
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content="Custom Counseling LLC" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta
+			property="og:image:alt"
+			content="Custom Counseling — Eric Tulga, MA, LPC. Online counseling across Colorado."
+		/>
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
 
-		<slot name="head" />
+		{jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
 	</head>
 	<body class="flex min-h-screen flex-col">
 		<a href="#main" class="skip-link">Skip to main content</a>

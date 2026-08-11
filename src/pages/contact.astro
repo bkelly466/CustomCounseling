@@ -7,10 +7,7 @@ import { getEntry } from 'astro:content';
 const settings = await getEntry('settings', 'site');
 ---
 
-<Layout
-	title="Contact | Free 15-Minute Consultation"
-	description="Reach out through the contact form and Eric will reply within 2–3 business days — or book a free 15-minute phone consultation to see if it's a fit."
->
+<Layout>
 	<PageHero heading="Get in Touch" subhead="You've made a massive step just by being here." />
 
 	<section class="mx-auto grid max-w-6xl items-start gap-10 px-4 py-14 sm:px-6 md:grid-cols-5 md:py-20">

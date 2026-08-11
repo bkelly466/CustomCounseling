@@ -2,22 +2,22 @@
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
 import FirstSteps from '../components/FirstSteps.astro';
+import RelatedServices from '../components/RelatedServices.astro';
 
 // D4: the $65 rate is gone; the pitch is experience, not price.
 // Page kept pending O2 (Eric's call at copy review).
-const areas = [
-	'PTSD and trauma',
-	'Substance use',
-	'Grief and loss',
-	'Anxiety and depression',
-	'The transition back to civilian life',
+//
+// An item links when it names something that has a page of its own.
+const areas: { label: string; href?: string }[] = [
+	{ label: 'PTSD and trauma' },
+	{ label: 'Substance use', href: '/addiction-counseling' },
+	{ label: 'Grief and loss' },
+	{ label: 'Anxiety and depression', href: '/anxiety-and-depression' },
+	{ label: 'The transition back to civilian life' },
 ];
 ---
 
-<Layout
-	title="Online Counseling for Veterans in Colorado"
-	description="Online therapy for veterans dealing with PTSD, substance use, grief, anxiety, or depression — with a counselor experienced in veterans' care."
->
+<Layout>
 	<PageHero heading="Counseling for Veterans" subhead="You've given everything. Let someone show up for you." />
 
 	<section class="mx-auto max-w-3xl px-4 py-14 sm:px-6 md:py-20">
@@ -42,7 +42,15 @@ const areas = [
 				areas.map((item) => (
 					<li class="flex items-start gap-3">
 						<span aria-hidden="true" class="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-clay-400" />
-						<span class="text-lg">{item}</span>
+						<span class="text-lg">
+							{item.href ? (
+								<a href={item.href} class="link-inline">
+									{item.label}
+								</a>
+							) : (
+								item.label
+							)}
+						</span>
 					</li>
 				))
 			}
@@ -56,5 +64,6 @@ const areas = [
 		</div>
 	</section>
 
+	<RelatedServices />
 	<FirstSteps />
 </Layout>

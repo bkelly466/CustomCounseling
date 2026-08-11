@@ -16,10 +16,7 @@ const alsoWorkWith = [
 ];
 ---
 
-<Layout
-	title="Online Counseling Services in Colorado | Custom Counseling"
-	description="Men's counseling, couples therapy, anxiety, depression, and addiction counseling — all online, for adults anywhere in Colorado."
->
+<Layout>
 	<PageHero
 		heading="Counseling Services"
 		subhead="All online, for adults and couples anywhere in Colorado."
@@ -32,6 +29,13 @@ const alsoWorkWith = [
 				the name. These are the areas where I have the most experience.
 			</p>
 		</div>
+		<!--
+			The card titles are H3s (correct on the home page, where an H2 "How I can
+			help" precedes them). Here the cards follow the H1 directly, which left an
+			H1 -> H3 jump — an axe `heading-order` violation. A visually hidden H2
+			restores the level without changing the design.
+		-->
+		<h2 class="sr-only">Counseling specialties</h2>
 		<div class="mt-10">
 			<ServiceCards />
 		</div>

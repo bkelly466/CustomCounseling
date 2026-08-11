@@ -1,6 +1,5 @@
 ---
 title: Online Sessions
-seoDescription: "What to expect from online counseling: secure Google Meet sessions, simple setup, and the same conversation you'd have in an office — from home."
 firstSessionSteps:
   - After our free 15-minute phone call, I email you a couple of forms to sign. No portals, no passwords.
   - Before our session, I send you a secure Google Meet link. Click it at our time, and we're talking.
