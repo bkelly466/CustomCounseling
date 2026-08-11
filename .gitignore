@@ -15,7 +15,13 @@ pnpm-debug.log*
 
 # environment variables
 .env
-.env.production
+.env.*
+!.env.example
+
+# Cloudflare Workers local secrets (CMS auth worker)
+.dev.vars
+.dev.vars.*
+.wrangler/
 
 # Lighthouse reports (pre/post-cutover baselines)
 lighthouse/
@@ -31,4 +37,5 @@ HANDBOOK.md
 RUNBOOK.md
 AGENTS.md
 .claude/agents
+.claude/settings.local.json
 docs/agents/
