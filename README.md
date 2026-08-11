@@ -18,8 +18,11 @@ Squarespace site.
 | Meet WCAG 2.1 AA | Semantic HTML, keyboard-operable nav, AA-verified colour contrast |
 | Let the client edit copy | Git-based CMS at `/admin`, no database and no subscription |
 
-Lighthouse scores **100** for Performance, Accessibility, Best Practices, and
-SEO on the production build.
+On the production build, Lighthouse scores **100** for Accessibility, Best
+Practices, and SEO on every page, and **98–100** for Performance — 100 on the
+contact page, 98 on the home page, where the hero image holds LCP at 2.25 s.
+Measured mobile against `astro preview`; full before/after in
+[`docs/lighthouse-baseline.md`](docs/lighthouse-baseline.md).
 
 ## Stack
 
