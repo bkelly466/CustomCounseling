@@ -20,12 +20,22 @@ const { Content: HomeBody } = await render(home);
 	<!-- Hero -->
 	<section class="relative isolate overflow-hidden border-b border-stone-200">
 		<!-- Full-bleed Colorado mountains background + dark scrim so the copy stays legible. -->
+		{
+			/*
+			 fetchpriority="high" is what makes this the LCP element rather than just an eager
+			 image: without it Chrome discovers the hero at normal priority and the below-fold
+			 photo competes for bandwidth. quality=70 is safe here specifically because the
+			 scrim below sits over it — this is never viewed as an unobstructed photograph.
+			*/
+		}
 		<Image
 			src={heroBg}
 			alt=""
 			widths={[768, 1280, 1920, 2560]}
 			sizes="100vw"
+			quality={70}
 			loading="eager"
+			fetchpriority="high"
 			class="absolute inset-0 -z-10 h-full w-full object-cover object-center md:object-top"
 		/>
 		<div
@@ -87,12 +97,20 @@ const { Content: HomeBody } = await render(home);
 	<!-- Online-first reassurance -->
 	<section class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 md:py-20">
 		<div class="overflow-hidden rounded-lg shadow-sm" style="aspect-ratio: 4 / 5">
+			{
+				/*
+				 widths + sizes, not densities: densities={[1,2]} pinned this to a 1600px-wide
+				 file for a column that is never wider than ~570px, so phones downloaded 174 KB
+				 for a 665px slot. It is lazy, but Chrome's lazy threshold on a throttled
+				 connection still fetches it during load, where it competed with the hero and
+				 cost the home page its LCP.
+				*/
+			}
 			<Image
 				src={manPhoto}
 				alt="A man on a video counseling session on his laptop by a sunny window at home"
-				width={800}
-				height={1200}
-				densities={[1, 2]}
+				widths={[400, 600, 800, 1200]}
+				sizes="(min-width: 768px) 50vw, 100vw"
 				class="h-full w-full object-cover object-[50%_30%]"
 			/>
 		</div>

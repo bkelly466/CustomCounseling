@@ -30,25 +30,27 @@ a secondary datapoint below, since it reflects what Cloudflare actually serves.
 | Page | | Performance | Accessibility | Best Practices | SEO |
 |---|---|---|---|---|---|
 | Home | before | **57** | 95 | 77 | 100 |
-| Home | after | **97** | 100 | 100 | 100 |
+| Home | after | **98** | 100 | 100 | 100 |
 | Contact | before | **57** | 96 | 100 | 100 |
 | Contact | after | **100** | 100 | 100 | 100 |
 
 Localhost eliminates network variance, and the runs bear that out: all six home-page runs
-returned 97 and all three contact runs returned 100, with metric spreads under 3 ms. These
+returned 98 and all three contact runs returned 100, with metric spreads under 3 ms. These
 are stable numbers, not a sampled range.
+
+Home was 97 before the hero-image work described at the end of this file.
 
 ## Core metrics
 
 | Home page | Before | After | Change |
 |---|---|---|---|
 | First Contentful Paint | 6.07 s | 1.35 s | 4.5× faster |
-| Largest Contentful Paint | 15.29 s | 2.48 s | 6.2× faster |
+| Largest Contentful Paint | 15.29 s | 2.25 s | 6.8× faster |
 | Speed Index | 8.56 s | 1.35 s | 6.3× faster |
-| Time to Interactive | 15.77 s | 2.50 s | 6.3× faster |
+| Time to Interactive | 15.77 s | 2.27 s | 7.0× faster |
 | Total Blocking Time | 123 ms | 0 ms | eliminated |
 | Cumulative Layout Shift | 0 | 0.006 | both well inside "good" (<0.1) |
-| Page weight | 4.86 MB | 385 KB | 92% smaller |
+| Page weight | 4.86 MB | 255 KB | 95% smaller |
 | Network requests | 134 | 8 | 94% fewer |
 
 | Contact page | Before | After | Change |
@@ -97,28 +99,54 @@ before launch — `fix-check-local.json` at 96 and `fix-check-local2.json` at 10
 change. The third-party-cookie and DevTools-issue failures are inherent to Squarespace's
 platform and disappear with it.
 
-## Why the home page is 97 and not 100
+## The hero-image LCP work, and why home is 98 and not 100
 
-Resolved 2026-08-11. The earlier suspicion that the sub-100 Performance score was network
-noise is **wrong** — measured locally it is a deterministic 97, repeated across six runs.
+Measured locally, the sub-100 Performance score was never network noise — it was a
+deterministic 97, repeated across six runs. Accessibility, Best Practices and SEO were a
+genuine 100 throughout; only home-page Performance fell short, and only there. All three
+points came from one audit: `largest-contentful-paint` scoring 0.90 at 2.48 s, against a
+weight of 25.
 
-Accessibility, Best Practices and SEO are a genuine 100 on every post-fix run, on both local
-preview and the deployed build. Only home-page Performance falls short, and only there: the
-contact page is a clean 100.
+Two changes, both in `src/pages/index.astro`:
 
-Three points are lost to a single audit — `largest-contentful-paint` scores 0.90 at 2.48 s
-(weight 25 in the Performance score). Everything else is either full marks or negligible.
-Lighthouse's diagnostics point at the hero image as the LCP element
-(`main#main > section.relative > img.absolute`):
+1. **`fetchpriority="high"` on the hero.** It was already `loading="eager"`, but eager only
+   means "don't defer" — it does not raise priority. Without the hint, Chrome discovered the
+   LCP image at normal priority and it queued behind other work.
+2. **Replaced `densities={[1,2]}` with `widths` + `sizes` on the below-fold photo.** This was
+   the larger and less obvious problem. `densities` at `width={800}` pinned every device to a
+   1600 px file — 174 KB, bigger than the hero itself, for a column never wider than ~570 px.
+   It carries `loading="lazy"`, but Chrome's lazy threshold on a throttled connection is
+   generous enough to fetch it during load anyway, where it competed with the hero for
+   bandwidth.
 
-- `image-delivery` — an estimated 206 KiB recoverable across the page's images
-- `lcp-discovery` — the LCP image is not discoverable early in the document
-- `render-blocking` — an estimated 720 ms recoverable
+Hero quality also dropped to 70, which is safe here specifically because the dark scrim sits
+over it; verified visually at mobile width with no artifacting.
 
-None of this is measured as fixed. Likely levers are `fetchpriority="high"` and a preload on
-the hero, plus tighter compression on it, but that work has not been done or verified.
+| | Before | After |
+|---|---|---|
+| Performance | 97 | **98** |
+| LCP | 2.48 s | 2.25 s |
+| LCP audit score | 0.90 | 0.94 |
+| Hero transfer | 111 KB | 88 KB |
+| Below-fold photo | 174 KB | 64 KB |
+| Page weight | 385 KB | 255 KB |
 
-**`README.md` currently claims 100 across all four categories, which is not accurate for
-home-page Performance.** Correct it to 97 there, or state the range, before the claim reaches
-the portfolio case study. 97 with a documented reason is a stronger artefact than a round
-number that does not reproduce.
+Six runs, all 98, spreads under 3 ms.
+
+### What still stands between 98 and 100
+
+Not attempted. Both remaining items are architectural rather than image tweaks:
+
+- `render-blocking` — an estimated 730 ms, which is the stylesheet plus two woff2 files
+  (87 KB combined). Recovering it means inlining critical CSS or changing the font-loading
+  strategy, and the latter trades against FOUT.
+- `image-delivery` — an estimated 49 KiB still available, mostly further hero compression
+  past the point where the scrim stops hiding it.
+
+LCP at 2.25 s is already inside Google's "good" threshold of 2.5 s, so the remaining two
+points are a Lighthouse scoring artefact more than a user-facing problem.
+
+**`README.md` claims 100 across all four categories, which is still not accurate for
+home-page Performance.** Correct it to 98 before the claim reaches the portfolio case study.
+98 with a documented reason is a stronger artefact than a round number that does not
+reproduce.
