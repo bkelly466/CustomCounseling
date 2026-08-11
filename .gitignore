@@ -38,4 +38,4 @@ RUNBOOK.md
 AGENTS.md
 .claude/agents
 .claude/settings.local.json
-docs/agents/
+docs/agents
