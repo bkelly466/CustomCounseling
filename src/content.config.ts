@@ -36,6 +36,45 @@ const pages = defineCollection({
 		couplesBody: z.string().optional(),
 		privacyBody: z.string().optional(),
 		techFailureBody: z.string().optional(),
+
+		// ---------------------------------------------------------------------
+		// The five service pillar pages.
+		//
+		// Same split as telehealth: Eric owns the words, code owns the shape.
+		// The H1 stays in the .astro file with the <title> it was written
+		// against — those two are a keyword pair (docs/adr/0004), and an H1 Eric
+		// can rewrite is the one field that could silently undo the page's
+		// targeting. Section H2s, the dot styling, the grids, and the photo are
+		// code-owned for the same reason funList's markup is.
+		// ---------------------------------------------------------------------
+
+		// The <p> under the H1. Emotional copy, no SEO weight — all five pages.
+		heroSubhead: z.string().optional(),
+
+		// Closing paragraphs, after the lists (addiction, men's, veterans).
+		closingBody: z.string().optional(),
+
+		// "What we can work on" (men's, veterans). An item links when it names
+		// something with a page of its own, so the pillar pages stay connected
+		// to each other — see RelatedServices.astro. `link` is a fixed dropdown
+		// in the CMS, never free text, so Eric cannot type a dead internal URL.
+		workOnList: z
+			.array(z.object({ text: z.string(), link: z.string().optional() }))
+			.optional(),
+
+		// Addiction (addiction-counseling.md).
+		helpWithList: z.array(z.string()).optional(),
+		gainsList: z.array(z.string()).optional(),
+
+		// Anxiety & depression (anxiety-and-depression.md).
+		anxietySigns: z.array(z.string()).optional(),
+		depressionSigns: z.array(z.string()).optional(),
+		howWeWorkBody: z.string().optional(),
+
+		// Couples (couples-counseling.md).
+		questions: z.array(z.string()).optional(),
+		approachBody: z.string().optional(),
+		videoBody: z.string().optional(),
 	}),
 });
 

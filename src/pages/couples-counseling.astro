@@ -1,46 +1,46 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
+import Paragraphs from '../components/Paragraphs.astro';
 import FirstSteps from '../components/FirstSteps.astro';
 import RelatedServices from '../components/RelatedServices.astro';
 import { Image } from 'astro:assets';
+import { getEntry, render } from 'astro:content';
 import couplesPhoto from '../assets/images/DenverMarriageCounseling.jpeg';
 
-const questions = [
-	'Does it seem like your words are never really heard?',
-	'Has a secret been uncovered that feels unrecoverable?',
-	'Do you feel unappreciated or not cared about?',
-	'Do arguments end, only to start again with the same results?',
-	'Are you headed for separation or divorce?',
-];
+// Copy is CMS-editable (pages/couples-counseling); the H1, the section
+// headings, the photo, and the link to /telehealth stay code-owned.
+const page = await getEntry('pages', 'couples-counseling');
+const { Content: Intro } = await render(page);
+const { questions = [] } = page.data;
 ---
 
 <Layout>
-	<PageHero
-		heading="Online Couples Counseling in Colorado"
-		subhead="A confidential mediator can be the difference maker you've been looking for."
-	/>
+	<PageHero heading="Online Couples Counseling in Colorado" subhead={page.data.heroSubhead} />
 
 	<section class="mx-auto max-w-3xl px-4 pt-14 sm:px-6 md:pt-20">
 		<div class="prose-site text-lg">
-			<p>
-				When couples call, it often goes like this: <em
-					>"I think we're both burned out. It's like we're roommates."</em
-				>
-			</p>
-			<p>Sound familiar? Ask yourself:</p>
+			<Intro />
 		</div>
 
-		<ul class="mt-6 space-y-3">
-			{
-				questions.map((q) => (
-					<li class="flex items-start gap-3">
-						<span aria-hidden="true" class="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-clay-400" />
-						<span class="text-lg">{q}</span>
-					</li>
-				))
-			}
-		</ul>
+		{
+			/*
+			 Conditional for the reason /about's "fun" list is (fa530dd): a list Eric
+			 empties in the CMS otherwise ships an empty <ul>, which is invalid HTML.
+			*/
+		}
+		{
+			questions.length > 0 && (
+				<ul class="mt-6 space-y-3">
+					{questions.map((q) => (
+						<li class="flex items-start gap-3">
+							<span aria-hidden="true" class="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-clay-400" />
+							<span class="text-lg">{q}</span>
+						</li>
+					))}
+				</ul>
+			)
+		}
 	</section>
 
 	<Image
@@ -53,21 +53,22 @@ const questions = [
 
 	<section class="mx-auto max-w-3xl px-4 pt-14 pb-14 sm:px-6 md:pt-20 md:pb-20">
 		<div class="prose-site text-lg">
-			<h2 class="text-3xl">A focused 8–12 week approach</h2>
-			<p>
-				I typically spend <strong>8 to 12 weeks</strong> working with a couple. It is not an
-				open-ended dialogue where we rehash the same issues over and over. The focus is to move
-				you out of reactivity and into conscious responses to each other's needs.
-			</p>
-			<p>
-				It works best when both partners are willing to fight <strong>for</strong> each other.
-				Otherwise one person's growth can feel to the other like being left behind.
-			</p>
-			<h2 class="text-3xl">How it works over video</h2>
-			<p>
-				Most couples join together from home on one screen. Separate devices work too. We'll set
-				it up in whatever way gets you both talking.
-			</p>
+			{
+				page.data.approachBody && (
+					<>
+						<h2 class="text-3xl">A focused 8–12 week approach</h2>
+						<Paragraphs text={page.data.approachBody} />
+					</>
+				)
+			}
+			{
+				page.data.videoBody && (
+					<>
+						<h2 class="text-3xl">How it works over video</h2>
+						<Paragraphs text={page.data.videoBody} />
+					</>
+				)
+			}
 			<p><a href="/telehealth">See how online sessions work</a></p>
 		</div>
 	</section>

@@ -1,80 +1,76 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
+import Paragraphs from '../components/Paragraphs.astro';
 import FirstSteps from '../components/FirstSteps.astro';
 import RelatedServices from '../components/RelatedServices.astro';
+import { getEntry, render } from 'astro:content';
 
-// Symptom lists live here ONLY (build reference: consolidated from 3 old pages).
-const anxietySigns = [
-	'Racing or overwhelming thoughts you can’t switch off',
-	'Trouble sleeping, or waking up already worried',
-	'Irritability and a short fuse',
-	'Avoiding people, places, or conversations',
-	'Physical tension: tight chest, clenched jaw, stomach knots',
-];
-
-const depressionSigns = [
-	'Feeling numb, flat, or empty',
-	'Losing interest in things you used to enjoy',
-	'Exhaustion no amount of sleep fixes',
-	'Pulling away from people who care about you',
-	'A critical inner voice that won’t let up',
-];
+// Symptom lists live here ONLY (build reference: consolidated from 3 old pages)
+// and are CMS-editable (pages/anxiety-and-depression) — the H1, the section
+// headings, and the two-column layout stay code-owned.
+const page = await getEntry('pages', 'anxiety-and-depression');
+const { Content: Intro } = await render(page);
+const { anxietySigns = [], depressionSigns = [] } = page.data;
 ---
 
 <Layout>
-	<PageHero heading="Counseling for Anxiety and Depression" subhead="Let's get your life back." />
+	<PageHero heading="Counseling for Anxiety and Depression" subhead={page.data.heroSubhead} />
 
 	<section class="mx-auto max-w-3xl px-4 py-14 sm:px-6 md:py-20">
 		<div class="prose-site text-lg">
-			<p>
-				Anxiety and depression have a way of shrinking your life. The things you used to enjoy
-				feel far away, and the overwhelming thoughts have nowhere to go.
-			</p>
-			<p>
-				<strong>Finding someone to talk to is the foundation to finding the peace you need.</strong>
-			</p>
+			<Intro />
 		</div>
 
+		{
+			/*
+			 Each column is conditional for the reason /about's "fun" list is
+			 (fa530dd): a list Eric empties in the CMS otherwise ships an <h2> above
+			 an empty <ul>, which is a dangling heading and invalid HTML besides.
+			 The grid drops to one column on its own if only one list survives.
+			*/
+		}
 		<div class="mt-12 grid gap-10 sm:grid-cols-2">
-			<div>
-				<h2 class="text-2xl">Anxiety can look like</h2>
-				<ul class="mt-5 space-y-3">
-					{
-						anxietySigns.map((item) => (
-							<li class="flex items-start gap-3">
-								<span aria-hidden="true" class="mt-2 h-2 w-2 shrink-0 rounded-full bg-clay-400" />
-								<span>{item}</span>
-							</li>
-						))
-					}
-				</ul>
-			</div>
-			<div>
-				<h2 class="text-2xl">Depression can look like</h2>
-				<ul class="mt-5 space-y-3">
-					{
-						depressionSigns.map((item) => (
-							<li class="flex items-start gap-3">
-								<span aria-hidden="true" class="mt-2 h-2 w-2 shrink-0 rounded-full bg-clay-400" />
-								<span>{item}</span>
-							</li>
-						))
-					}
-				</ul>
-			</div>
+			{
+				anxietySigns.length > 0 && (
+					<div>
+						<h2 class="text-2xl">Anxiety can look like</h2>
+						<ul class="mt-5 space-y-3">
+							{anxietySigns.map((item) => (
+								<li class="flex items-start gap-3">
+									<span aria-hidden="true" class="mt-2 h-2 w-2 shrink-0 rounded-full bg-clay-400" />
+									<span>{item}</span>
+								</li>
+							))}
+						</ul>
+					</div>
+				)
+			}
+			{
+				depressionSigns.length > 0 && (
+					<div>
+						<h2 class="text-2xl">Depression can look like</h2>
+						<ul class="mt-5 space-y-3">
+							{depressionSigns.map((item) => (
+								<li class="flex items-start gap-3">
+									<span aria-hidden="true" class="mt-2 h-2 w-2 shrink-0 rounded-full bg-clay-400" />
+									<span>{item}</span>
+								</li>
+							))}
+						</ul>
+					</div>
+				)
+			}
 		</div>
 
-		<div class="prose-site mt-12 text-lg">
-			<h2 class="text-3xl">How we work on it</h2>
-			<p>
-				First we make space to stabilize, so you can breathe again. Then we look at what's
-				underneath and build real coping skills through goal setting, one step at a time.
-			</p>
-			<p>
-				My approach is to meet you where you are. We'll create a plan for the goals you see fit.
-			</p>
-		</div>
+		{
+			page.data.howWeWorkBody && (
+				<div class="prose-site mt-12 text-lg">
+					<h2 class="text-3xl">How we work on it</h2>
+					<Paragraphs text={page.data.howWeWorkBody} />
+				</div>
+			)
+		}
 	</section>
 
 	<RelatedServices />

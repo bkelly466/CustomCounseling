@@ -1,73 +1,67 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
+import Paragraphs from '../components/Paragraphs.astro';
 import FirstSteps from '../components/FirstSteps.astro';
 import RelatedServices from '../components/RelatedServices.astro';
+import { getEntry, render } from 'astro:content';
 
+// Copy is CMS-editable (pages/mens-counseling); the H1, the section headings,
+// and the layout stay code-owned.
+//
 // An item links when it names something that has a page of its own. The label
 // is the anchor text, so the link describes its destination instead of saying
-// "learn more".
-const topics: { label: string; href?: string }[] = [
-	{ label: 'Work stress and pressure to provide' },
-	{ label: 'Anxiety and racing thoughts', href: '/anxiety-and-depression' },
-	{ label: 'Depression and feeling numb' },
-	{ label: 'Loneliness and isolation' },
-	{ label: 'Anger that comes out sideways' },
-	{ label: 'Feeling stuck, in life or in a relationship', href: '/couples-counseling' },
-];
+// "learn more". In the CMS the destination is a fixed dropdown, not free text.
+const page = await getEntry('pages', 'mens-counseling');
+const { Content: Intro } = await render(page);
+const { workOnList = [] } = page.data;
 ---
 
 <Layout>
-	<PageHero
-		heading="Online Counseling for Men in Colorado"
-		subhead="Stop bottling it up and get the help you need."
-	/>
+	<PageHero heading="Online Counseling for Men in Colorado" subhead={page.data.heroSubhead} />
 
 	<section class="mx-auto max-w-3xl px-4 py-14 sm:px-6 md:py-20">
 		<div class="prose-site text-lg">
-			<p>
-				As <strong>men</strong>, we tend to bottle up our emotions. Maybe you were taught young to
-				keep it to yourself. Maybe it feels like nobody really wants to hear it.
-			</p>
-			<p>
-				So it builds. The stress from work comes home. The short fuse gets shorter. And the
-				thoughts you have nowhere to unload keep circling at 2 a.m.
-			</p>
-			<p>
-				Finding a therapist who actually gets how men think, and what we need, is
-				hard. <strong>I get it, and I'm here to help.</strong>
-			</p>
+			<Intro />
 		</div>
 
-		<h2 class="mt-12 text-3xl">What we can work on</h2>
-		<ul class="mt-6 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-			{
-				topics.map((topic) => (
-					<li class="flex items-center gap-3">
-						<span aria-hidden="true" class="h-2 w-2 shrink-0 rounded-full bg-clay-400" />
-						{topic.href ? (
-							<a href={topic.href} class="link-inline">
-								{topic.label}
-							</a>
-						) : (
-							topic.label
-						)}
-					</li>
-				))
-			}
-		</ul>
+		{
+			/*
+			 Conditional for the reason /about's "fun" list is (fa530dd): a list Eric
+			 empties in the CMS otherwise ships an <h2> above an empty <ul>, which is
+			 a dangling heading and invalid HTML besides.
+			*/
+		}
+		{
+			workOnList.length > 0 && (
+				<>
+					<h2 class="mt-12 text-3xl">What we can work on</h2>
+					<ul class="mt-6 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+						{workOnList.map((topic) => (
+							<li class="flex items-center gap-3">
+								<span aria-hidden="true" class="h-2 w-2 shrink-0 rounded-full bg-clay-400" />
+								{topic.link ? (
+									<a href={topic.link} class="link-inline">
+										{topic.text}
+									</a>
+								) : (
+									topic.text
+								)}
+							</li>
+						))}
+					</ul>
+				</>
+			)
+		}
 
-		<div class="prose-site mt-12 text-lg">
-			<h2 class="text-3xl">No couch. No waiting room.</h2>
-			<p>
-				Sessions are online, so you can talk from your truck, your garage, or wherever you get
-				privacy. It's a conversation, and it stays between us.
-			</p>
-			<p>
-				There are no promises in therapy because it is not a miracle drug. However, I will do my
-				best to help you where you are today.
-			</p>
-		</div>
+		{
+			page.data.closingBody && (
+				<div class="prose-site mt-12 text-lg">
+					<h2 class="text-3xl">No couch. No waiting room.</h2>
+					<Paragraphs text={page.data.closingBody} />
+				</div>
+			)
+		}
 	</section>
 
 	<RelatedServices />

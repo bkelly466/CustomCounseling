@@ -41,10 +41,15 @@ points at the Specialty Page that markets it.
 _Avoid_: specialty, offering, program
 
 **Specialty Page**:
-The dedicated, code-owned page a Service links to — `/mens-counseling`,
-`/veterans`, and so on. Five of them. The Service entry supplies the name and
-summary; the page supplies the copy, the layout, and the structured data.
-Editing a Service in the CMS does not edit its Specialty Page.
+The dedicated page a Service links to — `/mens-counseling`, `/veterans`, and so
+on. Five of them. The Service entry supplies the name and summary; the page
+supplies the copy, the layout, and the structured data. Editing a Service in the
+CMS does not edit its Specialty Page — they are two separate entries, and the
+Service summary is deliberately the short one, because `serviceNode()` quotes it
+into the page's JSON-LD and Related Services prints it under the link.
+Each Specialty Page's *words* are Eric's, in the `pages` collection; its
+*shape* — the H1, the section headings, the lists' markup, the photo — is
+code-owned. See "Page metadata" for why the H1 is on the code side of that line.
 _Avoid_: pillar page, landing page, service page (ambiguous — reads as either
 half of this pair)
 
@@ -63,7 +68,12 @@ _Avoid_: intake, discovery call, first appointment
 **Page metadata**:
 A page's `<title>`, meta description, share card, and JSON-LD. Code-owned,
 keyed by pathname in `src/lib/seo.ts` — deliberately not CMS-editable. See
-[ADR-003](./docs/adr/0003-code-owned-page-metadata.md).
+[ADR-003](./docs/adr/0003-code-owned-page-metadata.md). A page's **H1** is on
+this side of the line too, even though it is on-page copy rather than metadata:
+it is written against the `<title>` it sits under and the pair carries the
+page's long-tail targeting ([ADR-004](./docs/adr/0004-seo-strategy-branded-and-long-tail.md)).
+The Home hero is the one exception — that H1 is a brand slogan, not a keyword
+target, and Eric owns it as `heroSlogan`.
 _Avoid_: SEO fields, SEO description (the removed CMS field went by that name;
 reusing it invites someone to add it back)
 

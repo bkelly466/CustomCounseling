@@ -172,6 +172,295 @@ singletons:
             ],
         }
 
+  # The five service pillar pages. Each one is a singleton because the page is a
+  # fixed route in src/pages — Eric edits its words, he does not create or delete
+  # it. These are NOT the same thing as the "Services" collection further down:
+  # that one holds the short summary cards shown on Home and /services. A page
+  # and its card are edited in two places on purpose — the card copy is quoted
+  # in the page's structured data (src/lib/seo.ts) and by "Other ways I can
+  # help", so it has to stay short.
+  #
+  # No page here exposes its big headline (the H1). That line is written against
+  # the page's search-result title in src/lib/seo.ts and the two work as a pair —
+  # see docs/adr/0004-seo-strategy-branded-and-long-tail.md. Section headings,
+  # layout, and photos are code-owned for the same reason they are everywhere
+  # else: Eric owns the words, the design stays put.
+  - name: mens_counseling
+    label: Men's Counseling Page
+    icon: man
+    file: src/content/pages/mens-counseling.md
+    fields:
+      - {
+          name: title,
+          label: "Internal Title (not shown on the page)",
+          widget: string,
+        }
+      - {
+          name: heroSubhead,
+          label: "Subhead (the line under the big headline)",
+          widget: string,
+        }
+      - {
+          name: body,
+          label: "Opening paragraphs",
+          widget: richtext,
+          editor_components: [], # no image uploads — see note on Home's body
+          buttons:
+            [
+              bold,
+              italic,
+              link,
+              heading-two,
+              heading-three,
+              bulleted-list,
+              numbered-list,
+            ],
+        }
+      - name: workOnList
+        label: "What we can work on"
+        widget: list
+        summary: "{{fields.text}}"
+        hint: "Shown as a two-column bulleted list, in this order. Add a link only when the item names another page on this site."
+        fields:
+          - { name: text, label: Item, widget: string }
+          # A dropdown, never free text: a typed URL would be a dead internal
+          # link that nothing catches at build time.
+          #
+          # The option list is repeated on the Veterans page rather than shared
+          # through a YAML anchor, for the same reason the richtext button lists
+          # above are — see the note on Home's body.
+          - name: link
+            label: "Link to (optional)"
+            widget: select
+            required: false
+            options:
+              - { label: "No link", value: "" }
+              - { label: "Men's Counseling", value: "/mens-counseling" }
+              - { label: "Couples Counseling", value: "/couples-counseling" }
+              - { label: "Addiction Counseling", value: "/addiction-counseling" }
+              - { label: "Anxiety & Depression", value: "/anxiety-and-depression" }
+              - { label: "Counseling for Veterans", value: "/veterans" }
+              - { label: "How Online Sessions Work", value: "/telehealth" }
+      - {
+          name: closingBody,
+          label: "Closing paragraphs (under “No couch. No waiting room.”)",
+          widget: text,
+          hint: "Leave a blank line between paragraphs.",
+        }
+
+  - name: couples_counseling
+    label: Couples Counseling Page
+    icon: favorite
+    file: src/content/pages/couples-counseling.md
+    fields:
+      - {
+          name: title,
+          label: "Internal Title (not shown on the page)",
+          widget: string,
+        }
+      - {
+          name: heroSubhead,
+          label: "Subhead (the line under the big headline)",
+          widget: string,
+        }
+      - {
+          name: body,
+          label: "Opening paragraphs",
+          widget: richtext,
+          editor_components: [], # no image uploads — see note on Home's body
+          buttons:
+            [
+              bold,
+              italic,
+              link,
+              heading-two,
+              heading-three,
+              bulleted-list,
+              numbered-list,
+            ],
+        }
+      - {
+          name: questions,
+          label: "Questions to ask yourself",
+          widget: list,
+          field: { name: question, label: Question, widget: string },
+          hint: "Shown as a bulleted list above the photo, in this order.",
+        }
+      - {
+          name: approachBody,
+          label: "Section: A focused 8–12 week approach",
+          widget: text,
+          hint: "Leave a blank line between paragraphs.",
+        }
+      - {
+          name: videoBody,
+          label: "Section: How it works over video",
+          widget: text,
+          hint: "The “See how online sessions work” link under this is added automatically.",
+        }
+
+  - name: addiction_counseling
+    label: Addiction Counseling Page
+    icon: healing
+    file: src/content/pages/addiction-counseling.md
+    fields:
+      - {
+          name: title,
+          label: "Internal Title (not shown on the page)",
+          widget: string,
+        }
+      - {
+          name: heroSubhead,
+          label: "Subhead (the line under the big headline)",
+          widget: string,
+        }
+      - {
+          name: body,
+          label: "Opening paragraphs",
+          widget: richtext,
+          editor_components: [], # no image uploads — see note on Home's body
+          buttons:
+            [
+              bold,
+              italic,
+              link,
+              heading-two,
+              heading-three,
+              bulleted-list,
+              numbered-list,
+            ],
+        }
+      - {
+          name: helpWithList,
+          label: "What I help with",
+          widget: list,
+          field: { name: item, label: Item, widget: string },
+          hint: "Short items — shown in two columns, in this order.",
+        }
+      - {
+          name: gainsList,
+          label: "What you get out of it",
+          widget: list,
+          field: { name: item, label: Item, widget: string },
+          hint: "Shown as a bulleted list, in this order.",
+        }
+      - {
+          name: closingBody,
+          label: "Closing paragraphs",
+          widget: text,
+          hint: "Leave a blank line between paragraphs.",
+        }
+
+  - name: anxiety_and_depression
+    label: Anxiety & Depression Page
+    icon: psychology
+    file: src/content/pages/anxiety-and-depression.md
+    fields:
+      - {
+          name: title,
+          label: "Internal Title (not shown on the page)",
+          widget: string,
+        }
+      - {
+          name: heroSubhead,
+          label: "Subhead (the line under the big headline)",
+          widget: string,
+        }
+      - {
+          name: body,
+          label: "Opening paragraphs",
+          widget: richtext,
+          editor_components: [], # no image uploads — see note on Home's body
+          buttons:
+            [
+              bold,
+              italic,
+              link,
+              heading-two,
+              heading-three,
+              bulleted-list,
+              numbered-list,
+            ],
+        }
+      - {
+          name: anxietySigns,
+          label: "Anxiety can look like",
+          widget: list,
+          field: { name: item, label: Item, widget: string },
+          hint: "Left column of the two lists. Five items fits the layout best.",
+        }
+      - {
+          name: depressionSigns,
+          label: "Depression can look like",
+          widget: list,
+          field: { name: item, label: Item, widget: string },
+          hint: "Right column. Keep it close in length to the anxiety list.",
+        }
+      - {
+          name: howWeWorkBody,
+          label: "Section: How we work on it",
+          widget: text,
+          hint: "Leave a blank line between paragraphs.",
+        }
+
+  - name: veterans
+    label: Veterans Page
+    icon: military_tech
+    file: src/content/pages/veterans.md
+    fields:
+      - {
+          name: title,
+          label: "Internal Title (not shown on the page)",
+          widget: string,
+        }
+      - {
+          name: heroSubhead,
+          label: "Subhead (the line under the big headline)",
+          widget: string,
+        }
+      - {
+          name: body,
+          label: "Opening paragraphs",
+          widget: richtext,
+          editor_components: [], # no image uploads — see note on Home's body
+          buttons:
+            [
+              bold,
+              italic,
+              link,
+              heading-two,
+              heading-three,
+              bulleted-list,
+              numbered-list,
+            ],
+        }
+      - name: workOnList
+        label: "What we can work on"
+        widget: list
+        summary: "{{fields.text}}"
+        hint: "Shown as a bulleted list, in this order. Add a link only when the item names another page on this site."
+        fields:
+          - { name: text, label: Item, widget: string }
+          # Same list as the Men's Counseling page, repeated on purpose.
+          - name: link
+            label: "Link to (optional)"
+            widget: select
+            required: false
+            options:
+              - { label: "No link", value: "" }
+              - { label: "Men's Counseling", value: "/mens-counseling" }
+              - { label: "Couples Counseling", value: "/couples-counseling" }
+              - { label: "Addiction Counseling", value: "/addiction-counseling" }
+              - { label: "Anxiety & Depression", value: "/anxiety-and-depression" }
+              - { label: "Counseling for Veterans", value: "/veterans" }
+              - { label: "How Online Sessions Work", value: "/telehealth" }
+      - {
+          name: closingBody,
+          label: "Closing paragraphs",
+          widget: text,
+          hint: "Leave a blank line between paragraphs.",
+        }
+
   - name: settings
     label: Site Settings
     icon: settings

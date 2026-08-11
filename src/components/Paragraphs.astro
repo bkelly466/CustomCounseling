@@ -1,0 +1,20 @@
+---
+// Renders a plain-text CMS field as one <p> per blank-line-separated block.
+//
+// The CMS `text` widget is a bare textarea: Eric pressing Enter twice means a
+// new paragraph, and without this the whole field collapses into a single <p>
+// with the line breaks swallowed by HTML. Deliberately not Markdown — these
+// fields carry words only, and the emphasis, links, and headings around them
+// stay in the .astro file where the design lives.
+interface Props {
+	text?: string;
+}
+const { text = '' } = Astro.props;
+
+const paragraphs = text
+	.split(/\n\s*\n/)
+	.map((block) => block.trim())
+	.filter(Boolean);
+---
+
+{paragraphs.map((paragraph) => <p>{paragraph}</p>)}

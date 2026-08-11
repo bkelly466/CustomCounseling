@@ -1,66 +1,63 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
+import Paragraphs from '../components/Paragraphs.astro';
 import FirstSteps from '../components/FirstSteps.astro';
 import RelatedServices from '../components/RelatedServices.astro';
+import { getEntry, render } from 'astro:content';
 
 // D4: the $65 rate is gone; the pitch is experience, not price.
 // Page kept pending O2 (Eric's call at copy review).
 //
-// An item links when it names something that has a page of its own.
-const areas: { label: string; href?: string }[] = [
-	{ label: 'PTSD and trauma' },
-	{ label: 'Substance use', href: '/addiction-counseling' },
-	{ label: 'Grief and loss' },
-	{ label: 'Anxiety and depression', href: '/anxiety-and-depression' },
-	{ label: 'The transition back to civilian life' },
-];
+// Copy is CMS-editable (pages/veterans); the H1, the section heading, and the
+// layout stay code-owned. An item links when it names something that has a
+// page of its own — a fixed dropdown in the CMS, not free text.
+const page = await getEntry('pages', 'veterans');
+const { Content: Intro } = await render(page);
+const { workOnList = [] } = page.data;
 ---
 
 <Layout>
-	<PageHero heading="Counseling for Veterans" subhead="You've given everything. Let someone show up for you." />
+	<PageHero heading="Counseling for Veterans" subhead={page.data.heroSubhead} />
 
 	<section class="mx-auto max-w-3xl px-4 py-14 sm:px-6 md:py-20">
 		<div class="prose-site text-lg">
-			<p>
-				You have given everything to this country: your body, your mind, your family, and your
-				time. <strong>I'm glad you're here.</strong>
-			</p>
-			<p>
-				I have worked with many veterans, so I understand how hard it is to even consider
-				therapy. I know the loops you go through to find a counselor who fits your coverage, and
-				then to find one you actually trust.
-			</p>
-			<p>
-				Whatever you have going on, I would love to help you during this time.
-			</p>
+			<Intro />
 		</div>
 
-		<h2 class="mt-12 text-3xl">What we can work on</h2>
-		<ul class="mt-6 space-y-3">
-			{
-				areas.map((item) => (
-					<li class="flex items-start gap-3">
-						<span aria-hidden="true" class="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-clay-400" />
-						<span class="text-lg">
-							{item.href ? (
-								<a href={item.href} class="link-inline">
-									{item.label}
-								</a>
-							) : (
-								item.label
-							)}
-						</span>
-					</li>
-				))
-			}
-		</ul>
+		{
+			/*
+			 Conditional for the reason /about's "fun" list is (fa530dd): a list Eric
+			 empties in the CMS otherwise ships an <h2> above an empty <ul>, which is
+			 a dangling heading and invalid HTML besides.
+			*/
+		}
+		{
+			workOnList.length > 0 && (
+				<>
+					<h2 class="mt-12 text-3xl">What we can work on</h2>
+					<ul class="mt-6 space-y-3">
+						{workOnList.map((item) => (
+							<li class="flex items-start gap-3">
+								<span aria-hidden="true" class="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-clay-400" />
+								<span class="text-lg">
+									{item.link ? (
+										<a href={item.link} class="link-inline">
+											{item.text}
+										</a>
+									) : (
+										item.text
+									)}
+								</span>
+							</li>
+						))}
+					</ul>
+				</>
+			)
+		}
 
 		<div class="prose-site mt-12 text-lg">
-			<p>
-				Sessions are online, so there's no VA waiting room and no drive. Just a private
-				conversation from wherever you are in Colorado.
-			</p>
+			<Paragraphs text={page.data.closingBody} />
 		</div>
 	</section>
 
